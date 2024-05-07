@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
+import { useEffect, useState } from "react";
+import { getAllProductCategories } from "@/services/productApi";
+import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
 	name: z.string().min(2).max(50),
@@ -14,6 +17,23 @@ const formSchema = z.object({
 });
 
 export default function CreateProductPage() {
+	const [categories, setCategories] = useState<string[] | null>(null);
+
+    console.log(categories);
+    // TODO: categories skal plottes ind i en Select
+
+	useEffect(() => {
+		getAllProductCategories()
+			.then((res) => setCategories(res.data))
+			.catch(() => {
+				toast({
+					title: "Åh nej! Noget gik galt!",
+					description: `Kunne ikke finde kategorierne i systemet. Prøv igen på et senere tidspunkt.`,
+					variant: "destructive",
+				});
+			});
+	}, []);
+
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -70,7 +90,7 @@ export default function CreateProductPage() {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Billede</FormLabel>
-							<FormControl>
+                            <FormControl>
 								<Input placeholder="(.jpg, .jpeg, .pn)" {...field} />
 							</FormControl>
 							<FormMessage />

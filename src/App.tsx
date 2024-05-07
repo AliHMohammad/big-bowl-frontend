@@ -4,19 +4,71 @@ import { Toaster } from "./components/ui/toaster";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "@/pages/HomePage.tsx";
 import RequireAuth from "@/services/RequireAuth.tsx";
-
+import AdminDashboardPage from "./pages/AdminDashboardPage";
+import ProductsPage from "./pages/ProductsPage";
 
 function App() {
 	return (
 		<>
 			<PageLayout>
 				<Routes>
-					<Route path="/" element={<HomePage/>}/>
-					<Route path="*" element={<h2>404 Page not found</h2>}/>
-					<Route path={"/reservations"} element={<RequireAuth><h2>Se reservationer</h2></RequireAuth>} />
-					<Route path={"/booking"} element={<RequireAuth><h2>Opret ny booking</h2></RequireAuth>} />
-					<Route path={"/administration"} element={<RequireAuth isAdmin={true}><h2>Admin page</h2></RequireAuth>} />
+					<Route path="/" element={<HomePage />} />
+					<Route path="*" element={<h2>404 Page not found</h2>} />
+					<Route
+						path={"/reservations"}
+						element={
+							<RequireAuth>
+								<h2>Se reservationer</h2>
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path={"/booking"}
+						element={
+							<RequireAuth>
+								<h2>Opret ny booking</h2>
+							</RequireAuth>
+						}
+					/>
 
+					<Route path={"/administration"}>
+						<Route
+							index
+							element={
+								<RequireAuth isAdmin={true}>
+									<AdminDashboardPage />
+								</RequireAuth>
+							}
+						/>
+						<Route path="products">
+							<Route
+							index
+							element={
+								<RequireAuth isAdmin={true}>
+									<ProductsPage />
+								</RequireAuth>
+							}
+							/>
+							<Route
+							path="form"
+							element={
+								<RequireAuth isAdmin={true}>
+									<div>formular</div>
+								</RequireAuth>
+							}
+							/>
+						</Route>
+						
+					</Route>
+
+					<Route
+						path="/administration/products/form"
+						element={
+							<RequireAuth isAdmin={true}>
+								<div>formular</div>
+							</RequireAuth>
+						}
+					/>
 
 					{/*<Route path="/products" >
 						<Route index element={<ProductListPage/>}/>
@@ -24,7 +76,7 @@ function App() {
 					</Route>*/}
 				</Routes>
 			</PageLayout>
-			<Toaster/>
+			<Toaster />
 		</>
 	);
 }

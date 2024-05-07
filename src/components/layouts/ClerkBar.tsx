@@ -16,6 +16,8 @@ export default function ClerkBar() {
 	const {isSignedIn, user} = useUser();
 	const {getToken, userId} = useAuth();
 
+	console.log(user);
+
 	useEffect(() => {
 		if (!isSignedIn) {
 			return;

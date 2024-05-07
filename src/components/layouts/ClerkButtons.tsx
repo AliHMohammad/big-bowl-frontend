@@ -1,7 +1,7 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { useEffect } from "react";
-import { createUserInDB } from "@/services/api.ts";
+import { createUserInDB } from "@/services/userApi";
 import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "@/components/ui/use-toast.ts";
 

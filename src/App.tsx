@@ -6,6 +6,7 @@ import HomePage from "@/pages/HomePage.tsx";
 import RequireAuth from "@/services/RequireAuth.tsx";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import ProductsPage from "./pages/ProductsPage";
+import CreateProductPage from "./pages/CreateProductPage";
 
 function App() {
 	return (
@@ -53,7 +54,7 @@ function App() {
 							path="form"
 							element={
 								<RequireAuth isAdmin={true}>
-									<div>formular</div>
+									<CreateProductPage/>
 								</RequireAuth>
 							}
 							/>
@@ -65,7 +66,7 @@ function App() {
 						path="/administration/products/form"
 						element={
 							<RequireAuth isAdmin={true}>
-								<div>formular</div>
+								<CreateProductPage/>
 							</RequireAuth>
 						}
 					/>

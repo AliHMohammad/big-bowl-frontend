@@ -1,6 +1,6 @@
 import { API_URL } from "@/settings.ts";
 import axios, { AxiosResponse } from "axios";
-import { UserRequest } from "@/components/layouts/ClerkBar.tsx";
+import { UserRequest } from "@/components/layouts/ClerkButtons.tsx";
 
 
 async function createUserInDB(request: UserRequest): Promise<AxiosResponse> {

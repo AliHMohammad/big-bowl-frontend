@@ -12,7 +12,7 @@ export type UserRequest = {
 }
 
 
-export default function ClerkBar() {
+export default function ClerkButtons() {
 	const {isSignedIn, user} = useUser();
 	const {getToken, userId} = useAuth();
 

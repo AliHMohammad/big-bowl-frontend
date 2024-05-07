@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
+import ClerkBar from "@/components/layouts/ClerkBar.tsx";
 
 export default function NavBar() {
+	
 
 	return (
 		<>
@@ -10,8 +12,7 @@ export default function NavBar() {
 						Home
 					</h3>
 				</NavLink>
-
-
+				<ClerkBar/>
 			</nav>
 		</>
 	);

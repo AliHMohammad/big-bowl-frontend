@@ -11,6 +11,15 @@ export const ProductColumns: ColumnDef<IProduct>[] = [
 	{
 		accessorKey: "image",
 		header: "Billede",
+		cell: ({ row }) => {
+			const product = row.original as IProduct;
+
+			return (
+				<div className="flex justify-center">
+					<img src={product.image} className="h-12" />
+				</div>
+			);
+		},
 	},
 	{
 		accessorKey: "name",
@@ -35,10 +44,12 @@ export const ProductColumns: ColumnDef<IProduct>[] = [
 			const product = row.original as IProduct;
 
 			return (
-				<Link to={"form"} state={product}>
-					<FaRegEdit />
-				</Link>
+				<div className="flex justify-center items-center hover:text-red-400 transition-all">
+					<Link to={"form"} state={product}>
+						<FaRegEdit size={22} />
+					</Link>
+				</div>
 			);
 		},
-	}
-]
+	},
+];

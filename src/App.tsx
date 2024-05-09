@@ -6,7 +6,7 @@ import HomePage from "@/pages/HomePage.tsx";
 import RequireAuth from "@/services/RequireAuth.tsx";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import ProductsPage from "./pages/ProductsPage";
-import CreateProductPage from "./pages/CreateProductPage";
+import CreateProductPage from "./components/forms/ProductForm";
 
 function App() {
 	return (
@@ -43,30 +43,29 @@ function App() {
 						/>
 						<Route path="products">
 							<Route
-							index
-							element={
-								<RequireAuth isAdmin={true}>
-									<ProductsPage />
-								</RequireAuth>
-							}
+								index
+								element={
+									<RequireAuth isAdmin={true}>
+										<ProductsPage />
+									</RequireAuth>
+								}
 							/>
 							<Route
-							path="form"
-							element={
-								<RequireAuth isAdmin={true}>
-									<CreateProductPage/>
-								</RequireAuth>
-							}
+								path="form"
+								element={
+									<RequireAuth isAdmin={true}>
+										<CreateProductPage />
+									</RequireAuth>
+								}
 							/>
 						</Route>
-						
 					</Route>
 
 					<Route
 						path="/administration/products/form"
 						element={
 							<RequireAuth isAdmin={true}>
-								<CreateProductPage/>
+								<CreateProductPage />
 							</RequireAuth>
 						}
 					/>

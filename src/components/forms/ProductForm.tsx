@@ -1,14 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { useEffect, useState } from "react";
 import { createProduct, getAllProductCategories } from "@/services/productApi";
 import { toast } from "@/components/ui/use-toast";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Navigate, useLocation, redirect, useNavigate } from "react-router-dom";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
 	name: z.string().min(2).max(50),
@@ -27,7 +27,7 @@ export type productRequest = {
 	category: string;
 };
 
-export default function CreateProductPage() {
+export default function ProductForm() {
 	const [categories, setCategories] = useState<string[] | null>(null);
 	const navigate = useNavigate();
 
@@ -63,7 +63,6 @@ export default function CreateProductPage() {
 					title: "Produkt oprettet!",
 					description: `Vi har oprettet ${values.name.toLowerCase()} til prisen ${values.price}kr. i systemet.`,
 				});
-				// return <Navigate to="/administration/products" replace={true}/>
 				navigate("/administration/products");
 				return;
 			})
@@ -114,7 +113,7 @@ export default function CreateProductPage() {
 						<FormItem>
 							<FormLabel>Billede</FormLabel>
 							<FormControl>
-								<Input placeholder="(.jpg, .jpeg, .pn)" {...field} />
+								<Input placeholder="(.jpg, .jpeg, .png)" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -168,4 +167,3 @@ export default function CreateProductPage() {
 		</Form>
 	);
 }
-//<Input placeholder="Drikkevarer.." {...field} />;

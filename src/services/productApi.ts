@@ -2,7 +2,7 @@ import { API_URL } from "@/settings.ts";
 import axios, { Axios, AxiosResponse } from "axios";
 import { UserRequest } from "@/components/layouts/ClerkButtons.tsx";
 import { IProduct } from "@/models/IProduct";
-import { productRequest } from "@/pages/CreateProductPage";
+import { productRequest } from "@/components/forms/ProductForm";
 
 async function getAllProducts(): Promise<AxiosResponse<IProduct[], unknown>> {
 	return await axios.get(`${API_URL}/products`);

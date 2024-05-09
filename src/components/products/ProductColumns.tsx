@@ -1,6 +1,7 @@
 import { IProduct } from "@/models/IProduct";
 import { ColumnDef } from "@tanstack/react-table";
 import { FaRegEdit } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export const ProductColumns: ColumnDef<IProduct>[] = [
 	{
@@ -34,9 +35,9 @@ export const ProductColumns: ColumnDef<IProduct>[] = [
 			const product = row.original as IProduct;
 
 			return (
-				<>
+				<Link to={"form"} state={product}>
 					<FaRegEdit />
-				</>
+				</Link>
 			);
 		},
 	}

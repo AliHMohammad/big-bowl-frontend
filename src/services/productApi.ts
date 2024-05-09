@@ -16,8 +16,8 @@ async function createProduct(newProduct: productRequest): Promise<AxiosResponse<
 	return await axios.post(`${API_URL}/products`, newProduct);
 }
 
-// async function updateProduct() {
+async function updateProduct(updatedProduct: productRequest): Promise<AxiosResponse<IProduct, unknown>> {
+	return await axios.put(`${API_URL}/products/${updatedProduct?.id}`, updatedProduct)
+}
 
-// }
-
-export { getAllProducts, getAllProductCategories, createProduct };
+export { getAllProducts, getAllProductCategories, createProduct, updateProduct };

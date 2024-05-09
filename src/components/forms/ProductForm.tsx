@@ -5,10 +5,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { useEffect, useState } from "react";
-import { createProduct, getAllProductCategories } from "@/services/productApi";
+import { createProduct, getAllProductCategories, updateProduct } from "@/services/productApi";
 import { toast } from "@/components/ui/use-toast";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
+import { IProduct } from "@/models/IProduct.ts";
 
 const formSchema = z.object({
 	name: z.string().min(2).max(50),
@@ -27,9 +28,15 @@ export type productRequest = {
 	category: string;
 };
 
-export default function ProductForm() {
+interface Props {
+	product: IProduct | null
+}
+
+export default function ProductForm({product}: Props) {
 	const [categories, setCategories] = useState<string[] | null>(null);
 	const navigate = useNavigate();
+
+
 
 	useEffect(() => {
 		getAllProductCategories()
@@ -46,33 +53,63 @@ export default function ProductForm() {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			name: "",
-			image: "",
-			price: 0,
-			stock: 0,
-			category: "",
+			name: product?.name || "",
+			image: product?.image || "",
+			price: product?.price || 0,
+			stock: product?.stock || 0,
+			category: product?.category || "",
 		},
 	});
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		console.log(values);
 
-		createProduct(values as productRequest)
-			.then(() => {
-				toast({
-					title: "Produkt oprettet!",
-					description: `Vi har oprettet ${values.name.toLowerCase()} til prisen ${values.price}kr. i systemet.`,
+		if (product) {
+			// PUT
+
+			updateProduct(
+				{
+					...values,
+					id: product.id
+				}
+			)
+				.then(() => {
+					toast({
+						title: "Produkt opdateret!",
+						description: `Vi har opdateret ${values.name.toLowerCase()} til prisen ${values.price}kr. i systemet.`,
+					});
+					navigate("/administration/products");
+					return;
+				})
+				.catch(() => {
+					toast({
+						title: "Åh nej! Noget gik galt!",
+						description: `Kunne ikke opdatere produktet i systemet. Prøv igen på et senere tidspunkt.`,
+						variant: "destructive",
+					});
 				});
-				navigate("/administration/products");
-				return;
-			})
-			.catch(() => {
-				toast({
-					title: "Åh nej! Noget gik galt!",
-					description: `Måske eksisterer produktet allerede i systemet. Prøv igen på et senere tidspunkt.`,
-					variant: "destructive",
+
+		} else {
+			// POST
+			createProduct(values as productRequest)
+				.then(() => {
+					toast({
+						title: "Produkt oprettet!",
+						description: `Vi har oprettet ${values.name.toLowerCase()} til prisen ${values.price}kr. i systemet.`,
+					});
+					navigate("/administration/products");
+					return;
+				})
+				.catch(() => {
+					toast({
+						title: "Åh nej! Noget gik galt!",
+						description: `Måske eksisterer produktet allerede i systemet. Prøv igen på et senere tidspunkt.`,
+						variant: "destructive",
+					});
 				});
-			});
+		}
+
+
 	};
 
 	return (

@@ -1,5 +1,6 @@
 import { IProduct } from "@/models/IProduct";
 import { ColumnDef } from "@tanstack/react-table";
+import { FaRegEdit } from "react-icons/fa";
 
 export const ProductColumns: ColumnDef<IProduct>[] = [
 	{
@@ -34,7 +35,7 @@ export const ProductColumns: ColumnDef<IProduct>[] = [
 
 			return (
 				<>
-					<div>{product.id}</div>
+					<FaRegEdit />
 				</>
 			);
 		},

@@ -1,7 +1,7 @@
 import { IProduct } from "@/models/IProduct";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-const columnHelper = createColumnHelper();
-export const productColumns: ColumnDef<IProduct>[] = [
+import { ColumnDef } from "@tanstack/react-table";
+
+export const ProductColumns: ColumnDef<IProduct>[] = [
 	{
 		accessorKey: "id",
 		header: "Id",
@@ -9,7 +9,6 @@ export const productColumns: ColumnDef<IProduct>[] = [
 	{
 		accessorKey: "image",
 		header: "Billede",
-		
 	},
 	{
 		accessorKey: "name",
@@ -25,6 +24,19 @@ export const productColumns: ColumnDef<IProduct>[] = [
 	},
 	{
 		accessorKey: "category",
-		header: "Katagori",
+		header: "Kategori",
 	},
-];
+	{
+		accessorKey: "edit",
+		header: "Rediger",
+		cell: ({ row }) => {
+			const product = row.original as IProduct;
+
+			return (
+				<>
+					<div>{product.id}</div>
+				</>
+			);
+		},
+	}
+]

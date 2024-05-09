@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { getAllProducts } from "@/services/productApi";
 import { toast } from "@/components/ui/use-toast";
 import DataTable from "@/components/core/DataTable";
-import { productColumns } from "@/components/products/productColumns";
+import { ProductColumns } from "@/components/products/ProductColumns";
 import { Button } from "@/components/ui/button";
 
 export default function ProductsPage() {
@@ -31,7 +31,7 @@ export default function ProductsPage() {
 			<Link to={"form"}>
 				<Button>Tilføj produkt</Button>
 			</Link>
-			{products && <DataTable columns={productColumns} data={products} />}
+			{products && <DataTable columns={ProductColumns} data={products} />}
 		</>
 	);
 }

@@ -5,22 +5,31 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { useEffect, useState } from "react";
-import { getAllProductCategories } from "@/services/productApi";
+import { createProduct, getAllProductCategories } from "@/services/productApi";
 import { toast } from "@/components/ui/use-toast";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Navigate, useLocation, redirect, useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
 	name: z.string().min(2).max(50),
 	image: z.string().min(2),
-	price: z.number().min(1),
-	stock: z.number().min(1),
+	price: z.coerce.number().int().min(1),
+	stock: z.coerce.number().int().min(1),
 	category: z.string().min(2).max(50),
 });
 
+export type productRequest = {
+	id?: number;
+	name: string;
+	image: string;
+	price: number;
+	stock: number;
+	category: string;
+};
+
 export default function CreateProductPage() {
 	const [categories, setCategories] = useState<string[] | null>(null);
-
-    console.log(categories);
-    // TODO: categories skal plottes ind i en Select
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		getAllProductCategories()
@@ -34,7 +43,6 @@ export default function CreateProductPage() {
 			});
 	}, []);
 
-	// 1. Define your form.
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -46,11 +54,26 @@ export default function CreateProductPage() {
 		},
 	});
 
-	// 2. Define a submit handler.
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
 		console.log(values);
+
+		createProduct(values as productRequest)
+			.then(() => {
+				toast({
+					title: "Produkt oprettet!",
+					description: `Vi har oprettet ${values.name.toLowerCase()} til prisen ${values.price}kr. i systemet.`,
+				});
+				// return <Navigate to="/administration/products" replace={true}/>
+				navigate("/administration/products");
+				return;
+			})
+			.catch(() => {
+				toast({
+					title: "Åh nej! Noget gik galt!",
+					description: `Måske eksisterer produktet allerede i systemet. Prøv igen på et senere tidspunkt.`,
+					variant: "destructive",
+				});
+			});
 	};
 
 	return (
@@ -90,7 +113,7 @@ export default function CreateProductPage() {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Billede</FormLabel>
-                            <FormControl>
+							<FormControl>
 								<Input placeholder="(.jpg, .jpeg, .pn)" {...field} />
 							</FormControl>
 							<FormMessage />
@@ -119,7 +142,21 @@ export default function CreateProductPage() {
 						<FormItem>
 							<FormLabel>Kategori</FormLabel>
 							<FormControl>
-								<Input placeholder="Drikkevarer.." {...field} />
+								<Select onValueChange={field.onChange} defaultValue={field.value}>
+									<SelectTrigger className="">
+										<SelectValue placeholder="Vælg kategori" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectGroup>
+											{categories &&
+												categories.map((c) => (
+													<SelectItem {...field} key={c} value={c}>
+														{c}
+													</SelectItem>
+												))}
+										</SelectGroup>
+									</SelectContent>
+								</Select>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -131,3 +168,4 @@ export default function CreateProductPage() {
 		</Form>
 	);
 }
+//<Input placeholder="Drikkevarer.." {...field} />;

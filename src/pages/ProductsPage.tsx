@@ -7,6 +7,8 @@ import DataTable from "@/components/core/DataTable";
 import { ProductColumns } from "@/components/products/ProductColumns";
 import { Button } from "@/components/ui/button";
 
+
+
 export default function ProductsPage() {
 	const [products, setProducts] = useState<IProduct[] | null>(null);
 
@@ -14,8 +16,8 @@ export default function ProductsPage() {
 
 	useEffect(() => {
 		getAllProducts()
-			.then((res) => {
-				setProducts(res.data);
+			.then(({data}) => {
+				setProducts(data.content);
 			})
 			.catch(() => {
 				toast({

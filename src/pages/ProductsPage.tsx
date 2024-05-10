@@ -58,70 +58,88 @@ export default function ProductsPage() {
 
 	return (
 		<>
-			<div className="flex justify-between">
-				<div className="flex gap-2">
-					<Input className="w-[200px]" placeholder="Søg efter produkt"  onChange={(e) => {
-						setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
-						setSearch(e.target.value);
-					}}/>
-					<Select onValueChange={(value) => {
-						setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
-						setSort((prevState) => ({ ...prevState, sortBy: value }));
-					}}>
-						<SelectTrigger className="w-[140px]">
-							<SelectValue placeholder="Sorter efter" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="id">ID</SelectItem>
-							<SelectItem value="name">Navn</SelectItem>
-							<SelectItem value="price">Pris</SelectItem>
-							<SelectItem value="stock">Antal</SelectItem>
-						</SelectContent>
-					</Select>
+			<div className="flex flex-col gap-4">
+				<div className="flex justify-between">
+					<div className="flex gap-2 flex-wrap">
+						<Input
+							className="w-[200px]"
+							placeholder="Søg efter produkt"
+							onChange={(e) => {
+								setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+								setSearch(e.target.value);
+							}}
+						/>
+						<Select
+							onValueChange={(value) => {
+								setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+								setSort((prevState) => ({ ...prevState, sortBy: value }));
+							}}
+						>
+							<SelectTrigger className="w-[140px]">
+								<SelectValue placeholder="Sorter efter" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="id">ID</SelectItem>
+								<SelectItem value="name">Navn</SelectItem>
+								<SelectItem value="price">Pris</SelectItem>
+								<SelectItem value="stock">Antal</SelectItem>
+							</SelectContent>
+						</Select>
 
-					<Select defaultValue="ASC" onValueChange={(value) => {
-						setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
-						setSort((prevState) => ({ ...prevState, sortDir: value }));
-					}}>
-						<SelectTrigger className="w-[120px]">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="ASC">Ascending</SelectItem>
-							<SelectItem value="DESC">Descending</SelectItem>
-						</SelectContent>
-					</Select>
+						<Select
+							defaultValue="ASC"
+							onValueChange={(value) => {
+								setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+								setSort((prevState) => ({ ...prevState, sortDir: value }));
+							}}
+						>
+							<SelectTrigger className="w-[120px]">
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="ASC">Ascending</SelectItem>
+								<SelectItem value="DESC">Descending</SelectItem>
+							</SelectContent>
+						</Select>
 
-					<Select onValueChange={(value) => {
-						setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
-						setFilter(value);
-					}}>
-						<SelectTrigger className="w-[160px]">
-							<SelectValue placeholder="Filtrer efter" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="none">Ingen</SelectItem>
-							<SelectItem value="Snacks">Snacks</SelectItem>
-							<SelectItem value="Alkohol">Alkohol</SelectItem>
-							<SelectItem value="Drikkevarer">Drikkevarer</SelectItem>
-							<SelectItem value="Andet">Andet</SelectItem>
-						</SelectContent>
-					</Select>
+						<Select
+							onValueChange={(value) => {
+								setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+								setFilter(value);
+							}}
+						>
+							<SelectTrigger className="w-[160px]">
+								<SelectValue placeholder="Filtrer efter" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="none">Ingen</SelectItem>
+								<SelectItem value="Snacks">Snacks</SelectItem>
+								<SelectItem value="Alkohol">Alkohol</SelectItem>
+								<SelectItem value="Drikkevarer">Drikkevarer</SelectItem>
+								<SelectItem value="Andet">Andet</SelectItem>
+							</SelectContent>
+						</Select>
+					</div>
+					<Link to={"form"}>
+						<Button>Tilføj produkt</Button>
+					</Link>
 				</div>
-				<Link to={"form"}>
-					<Button>Tilføj produkt</Button>
-				</Link>
-			</div>
-			{products && <DataTable columns={ProductColumns} data={products.content} pagination={pagination} />}
+				{products && <DataTable columns={ProductColumns} data={products.content} pagination={pagination} />}
 
-			<div className="flex justify-evenly">
-				<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))} disabled={products?.first}>
-					{"Forrige"}
-				</Button>
-				{products?.totalPages ? <p> Side {pagination.pageIndex + 1} / {products?.totalPages} </p> : null}
-				<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))} disabled={products?.last}>
-					{"Næste"}
-				</Button>
+				<div className="flex justify-evenly">
+					<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))} disabled={products?.first}>
+						{"Forrige"}
+					</Button>
+					{products?.totalPages ? (
+						<p>
+							{" "}
+							Side {pagination.pageIndex + 1} / {products?.totalPages}{" "}
+						</p>
+					) : null}
+					<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))} disabled={products?.last}>
+						{"Næste"}
+					</Button>
+				</div>
 			</div>
 		</>
 	);

@@ -8,6 +8,7 @@ import { ProductColumns } from "@/components/products/ProductColumns";
 import { Button } from "@/components/ui/button";
 import { IPagination } from "@/models/IPagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 
 
@@ -22,6 +23,7 @@ export default function ProductsPage() {
 		sortDir: "ASC"
 	});
 	const [filter, setFilter] = useState("");
+	const [search, setSearch] = useState("");
 
 	
 
@@ -29,14 +31,19 @@ export default function ProductsPage() {
 		const queryParams = new URLSearchParams({
 			pageIndex: String(pagination.pageIndex),
 			pageSize: String(pagination.pageSize),
-			filterBy: filter == "none" ? "" : filter,
 			...sort
-		}).toString();
+		})
 
+		if (filter != "none")
+			queryParams.append("filterBy", filter)
+		if (search)
+			queryParams.append("searchBy", search)
+
+		
 		console.log(queryParams);
 		
 
-		getAllProducts(queryParams)
+		getAllProducts(queryParams.toString())
 			.then(({data}) => {
 				setProducts(data);
 			})
@@ -47,17 +54,21 @@ export default function ProductsPage() {
 					variant: "destructive",
 				});
 			});
-	}, [pagination, sort, filter]);
+	}, [pagination, sort, filter, search]);
 
 	return (
 		<>
 			<div className="flex justify-between">
 				<div className="flex gap-2">
+					<Input className="w-[200px]" placeholder="Søg efter produkt"  onChange={(e) => {
+						setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+						setSearch(e.target.value);
+					}}/>
 					<Select onValueChange={(value) => {
 						setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
 						setSort((prevState) => ({ ...prevState, sortBy: value }));
 					}}>
-						<SelectTrigger className="w-[180px]">
+						<SelectTrigger className="w-[140px]">
 							<SelectValue placeholder="Sorter efter" />
 						</SelectTrigger>
 						<SelectContent>
@@ -85,7 +96,7 @@ export default function ProductsPage() {
 						setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
 						setFilter(value);
 					}}>
-						<SelectTrigger className="w-[180px]">
+						<SelectTrigger className="w-[160px]">
 							<SelectValue placeholder="Filtrer efter" />
 						</SelectTrigger>
 						<SelectContent>
@@ -107,9 +118,7 @@ export default function ProductsPage() {
 				<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))} disabled={products?.first}>
 					{"Forrige"}
 				</Button>
-				<p>
-					Side {pagination.pageIndex + 1} / {products?.totalPages}
-				</p>
+				{products?.totalPages ? <p> Side {pagination.pageIndex + 1} / {products?.totalPages} </p> : null}
 				<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))} disabled={products?.last}>
 					{"Næste"}
 				</Button>

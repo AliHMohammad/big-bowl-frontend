@@ -21,6 +21,7 @@ export default function ProductsPage() {
 		sortBy: "id",
 		sortDir: "ASC"
 	});
+	const [filter, setFilter] = useState("");
 
 	
 
@@ -28,6 +29,7 @@ export default function ProductsPage() {
 		const queryParams = new URLSearchParams({
 			pageIndex: String(pagination.pageIndex),
 			pageSize: String(pagination.pageSize),
+			filterBy: filter == "none" ? "" : filter,
 			...sort
 		}).toString();
 
@@ -45,14 +47,16 @@ export default function ProductsPage() {
 					variant: "destructive",
 				});
 			});
-	}, [pagination, sort]);
+	}, [pagination, sort, filter]);
 
 	return (
 		<>
 			<div className="flex justify-between">
 				<div className="flex gap-2">
-					
-					<Select onValueChange={(value) => setSort((prevState) => ({ ...prevState, sortBy: value }))}>
+					<Select onValueChange={(value) => {
+						setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+						setSort((prevState) => ({ ...prevState, sortBy: value }));
+					}}>
 						<SelectTrigger className="w-[180px]">
 							<SelectValue placeholder="Sorter efter" />
 						</SelectTrigger>
@@ -64,20 +68,38 @@ export default function ProductsPage() {
 						</SelectContent>
 					</Select>
 
-					<Select defaultValue="ASC" onValueChange={(value) => setSort((prevState) => ({ ...prevState, sortDir: value }))}>
+					<Select defaultValue="ASC" onValueChange={(value) => {
+						setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+						setSort((prevState) => ({ ...prevState, sortDir: value }));
+					}}>
 						<SelectTrigger className="w-[120px]">
-							<SelectValue/>
+							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="ASC">Ascending</SelectItem>
 							<SelectItem value="DESC">Descending</SelectItem>
 						</SelectContent>
 					</Select>
+
+					<Select onValueChange={(value) => {
+						setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+						setFilter(value);
+					}}>
+						<SelectTrigger className="w-[180px]">
+							<SelectValue placeholder="Filtrer efter" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="none">Ingen</SelectItem>
+							<SelectItem value="Snacks">Snacks</SelectItem>
+							<SelectItem value="Alkohol">Alkohol</SelectItem>
+							<SelectItem value="Drikkevarer">Drikkevarer</SelectItem>
+							<SelectItem value="Andet">Andet</SelectItem>
+						</SelectContent>
+					</Select>
 				</div>
 				<Link to={"form"}>
 					<Button>Tilføj produkt</Button>
 				</Link>
-				
 			</div>
 			{products && <DataTable columns={ProductColumns} data={products.content} pagination={pagination} />}
 

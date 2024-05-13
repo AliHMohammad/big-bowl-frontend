@@ -7,4 +7,10 @@ async function getAllActivities(queryParams: string): Promise<AxiosResponse<IPag
 	return axios.get(`${API_URL}/activities?` + queryParams);
 }
 
-export { getAllActivities };
+async function updateStatusOnActivity(id: number, isOpen: boolean): Promise<AxiosResponse<IActivity, unknown>> {
+	return axios.patch(`${API_URL}/activities/${id}`, {
+		isOpen
+	});
+}
+
+export { getAllActivities, updateStatusOnActivity};

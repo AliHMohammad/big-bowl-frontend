@@ -8,6 +8,7 @@ import AdminDashboardPage from "./pages/AdminDashboardPage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductFormPage from "@/pages/ProductFormPage.tsx";
 import ActivitiesPage from "./pages/ActivitiesPage";
+import ActivityFormPage from "./pages/ActivityFormPage";
 
 function App() {
 	return (
@@ -42,14 +43,26 @@ function App() {
 								</RequireAuth>
 							}
 						/>
-						<Route
-							path="activities"
-							element={
-								<RequireAuth isAdmin={true}>
-									<ActivitiesPage />
-								</RequireAuth>
-							}
-						/>
+
+						<Route path="activities">
+							<Route
+								index
+								element={
+									<RequireAuth isAdmin={true}>
+										<ActivitiesPage />
+									</RequireAuth>
+								}
+							/>
+							<Route
+								path="form"
+								element={
+									<RequireAuth isAdmin={true}>
+										<ActivityFormPage />
+									</RequireAuth>
+								}
+							/>
+						</Route>
+
 						<Route path="products">
 							<Route
 								index
@@ -69,11 +82,6 @@ function App() {
 							/>
 						</Route>
 					</Route>
-
-					{/*<Route path="/products" >
-						<Route index element={<ProductListPage/>}/>
-						<Route path=":id" element={<DetailedProductPage/>}/>
-					</Route>*/}
 				</Routes>
 			</PageLayout>
 			<Toaster />

@@ -45,7 +45,7 @@ export default function ActivitiesPage() {
 			});
 	}, [pagination, sort, filter]);
 
-	console.log(activities);
+	
 
 	return (
 		<div>

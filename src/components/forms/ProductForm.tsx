@@ -199,7 +199,7 @@ export default function ProductForm({product}: Props) {
 					)}
 				/>
 
-				<Button type="submit">Submit</Button>
+				<Button type="submit">{product ? "Opdater" : "Opret"}</Button>
 			</form>
 		</Form>
 	);

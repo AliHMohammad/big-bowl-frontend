@@ -28,7 +28,6 @@ export default function DataTable<TData, TValue>({ columns, data, pagination }: 
 	});
 
 	
-
 	return (
 		<div className="rounded-md border">
 			<Table>

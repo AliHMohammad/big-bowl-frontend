@@ -1,9 +1,10 @@
 import { IActivity } from "@/models/IActivity";
-import { IProduct } from "@/models/IProduct";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@radix-ui/react-select";
+import { updateStatusOnActivity } from "@/services/activitiesApi";
 import { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
+
 
 export const ActivityColumns: ColumnDef<IActivity>[] = [
 	{
@@ -28,17 +29,23 @@ export const ActivityColumns: ColumnDef<IActivity>[] = [
 		cell: ({ row }) => {
 			const activity = row.original as IActivity;
 
-			const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-                console.log("PATCH: " + event.target.value);
-                
-                
-			};
+			return (
+				<p>{activity.isOpen ? "Åben" : "Lukket"}</p>
+			);
+		},
+	},
+	{
+		accessorKey: "edit",
+		header: "Rediger",
+		cell: ({ row }) => {
+			const activity = row.original as IActivity;
 
 			return (
-				<select  className="p-2 rounded-sm" onChange={handleChange} name="status" id="status">
-					<option value="true">Åben</option>
-					<option value="false">Lukket</option>
-				</select>
+				<div className="flex justify-center items-center hover:text-red-400 transition-all">
+					<Link to={"form"} state={activity}>
+						<FaRegEdit size={22} />
+					</Link>
+				</div>
 			);
 		},
 	},

@@ -7,6 +7,7 @@ import RequireAuth from "@/services/RequireAuth.tsx";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductFormPage from "@/pages/ProductFormPage.tsx";
+import ActivitiesPage from "./pages/ActivitiesPage";
 
 function App() {
 	return (
@@ -38,6 +39,14 @@ function App() {
 							element={
 								<RequireAuth isAdmin={true}>
 									<AdminDashboardPage />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="activities"
+							element={
+								<RequireAuth isAdmin={true}>
+									<ActivitiesPage />
 								</RequireAuth>
 							}
 						/>

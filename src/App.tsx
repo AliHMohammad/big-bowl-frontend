@@ -9,6 +9,7 @@ import ProductsPage from "./pages/ProductsPage";
 import ProductFormPage from "@/pages/ProductFormPage.tsx";
 import ActivitiesPage from "./pages/ActivitiesPage";
 import ActivityFormPage from "./pages/ActivityFormPage";
+import BookingCalenderPage from "./pages/BookingCalenderPage";
 
 function App() {
 	return (
@@ -35,6 +36,14 @@ function App() {
 					/>
 
 					<Route path={"/administration"}>
+						<Route
+							path="calender"
+							index element={
+								<RequireAuth isAdmin={true}>
+									<BookingCalenderPage />
+								</RequireAuth>
+							}
+						/>
 						<Route
 							index
 							element={

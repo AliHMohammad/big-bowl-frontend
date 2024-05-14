@@ -48,7 +48,7 @@ export default function ActivitiesPage() {
 	
 
 	return (
-		<div>
+		<div className="flex flex-col gap-4">
 			<div className="flex justify-between">
 				<div className="flex gap-2 flex-wrap">
 					<Select
@@ -78,8 +78,8 @@ export default function ActivitiesPage() {
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="ASC">Ascending</SelectItem>
-							<SelectItem value="DESC">Descending</SelectItem>
+							<SelectItem value="ASC">Stigende</SelectItem>
+							<SelectItem value="DESC">Faldende</SelectItem>
 						</SelectContent>
 					</Select>
 

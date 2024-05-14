@@ -60,7 +60,7 @@ export default function ProductsPage() {
 		<>
 			<div className="flex flex-col gap-4">
 				<div className="flex justify-between">
-					<div className="flex gap-2 flex-wrap">
+					<div className="flex gap-4 flex-wrap">
 						<Input
 							className="w-[200px]"
 							placeholder="Søg efter produkt"
@@ -69,38 +69,40 @@ export default function ProductsPage() {
 								setSearch(e.target.value);
 							}}
 						/>
-						<Select
-							onValueChange={(value) => {
-								setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
-								setSort((prevState) => ({ ...prevState, sortBy: value }));
-							}}
-						>
-							<SelectTrigger className="w-[140px]">
-								<SelectValue placeholder="Sorter efter" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="id">ID</SelectItem>
-								<SelectItem value="name">Navn</SelectItem>
-								<SelectItem value="price">Pris</SelectItem>
-								<SelectItem value="stock">Antal</SelectItem>
-							</SelectContent>
-						</Select>
+						<div className="flex gap-1">
+							<Select
+								onValueChange={(value) => {
+									setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+									setSort((prevState) => ({ ...prevState, sortBy: value }));
+								}}
+							>
+								<SelectTrigger className="w-[140px]">
+									<SelectValue placeholder="Sorter efter" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="id">ID</SelectItem>
+									<SelectItem value="name">Navn</SelectItem>
+									<SelectItem value="price">Pris</SelectItem>
+									<SelectItem value="stock">Antal</SelectItem>
+								</SelectContent>
+							</Select>
 
-						<Select
-							defaultValue="ASC"
-							onValueChange={(value) => {
-								setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
-								setSort((prevState) => ({ ...prevState, sortDir: value }));
-							}}
-						>
-							<SelectTrigger className="w-[120px]">
-								<SelectValue />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="ASC">Ascending</SelectItem>
-								<SelectItem value="DESC">Descending</SelectItem>
-							</SelectContent>
-						</Select>
+							<Select
+								defaultValue="ASC"
+								onValueChange={(value) => {
+									setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+									setSort((prevState) => ({ ...prevState, sortDir: value }));
+								}}
+							>
+								<SelectTrigger className="w-[120px]">
+									<SelectValue />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="ASC">Stigende</SelectItem>
+									<SelectItem value="DESC">Faldende</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
 
 						<Select
 							onValueChange={(value) => {
@@ -130,12 +132,14 @@ export default function ProductsPage() {
 					<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))} disabled={products?.first}>
 						{"Forrige"}
 					</Button>
+
 					{products?.totalPages ? (
 						<p>
 							{" "}
 							Side {pagination.pageIndex + 1} / {products?.totalPages}{" "}
 						</p>
 					) : null}
+					
 					<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))} disabled={products?.last}>
 						{"Næste"}
 					</Button>

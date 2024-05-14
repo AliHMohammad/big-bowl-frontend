@@ -13,4 +13,8 @@ async function updateStatusOnActivity(id: number, isOpen: boolean): Promise<Axio
 	});
 }
 
-export { getAllActivities, updateStatusOnActivity};
+async function getAllActivitiesCalender(queryParams: string): Promise<AxiosResponse<IActivity[], unknown>> {
+	return axios.get(`${API_URL}/activities/calender?` + queryParams);
+}
+
+export { getAllActivities, updateStatusOnActivity, getAllActivitiesCalender};

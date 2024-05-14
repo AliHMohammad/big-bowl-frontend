@@ -12,6 +12,7 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.0.3",
     "@hookform/resolvers": "^3.3.4",
+    "@mobiscroll/react": "npm:@mobiscroll/react-trial@^5.29.2",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",

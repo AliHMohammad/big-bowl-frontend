@@ -4,11 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
-import { useEffect, useState } from "react";
-import { createProduct, getAllProductCategories, updateProduct } from "@/services/productApi";
 import { toast } from "@/components/ui/use-toast";
 import { useLocation, useNavigate } from "react-router-dom";
-import { IProduct } from "@/models/IProduct.ts";
 import { IBooking } from "@/models/IBooking";
 import { updateBookingParticipants } from "@/services/bookingApi";
 
@@ -32,18 +29,6 @@ export default function UserEditBookingFormPage() {
 	const booking = useLocation().state as IBooking;
 	const navigate = useNavigate();
 
-	// useEffect(() => {
-	// 	getAllProductCategories()
-	// 		.then((res) => setCategories(res.data))
-	// 		.catch(() => {
-	// 			toast({
-	// 				title: "Åh nej! Noget gik galt!",
-	// 				description: `Kunne ikke finde kategorierne i systemet. Prøv igen på et senere tidspunkt.`,
-	// 				variant: "destructive",
-	// 			});
-	// 		});
-	// }, []);
-
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -59,13 +44,12 @@ export default function UserEditBookingFormPage() {
 
 		const names = [];
 
-        for (const [key, value] of Object.entries(values)) {
+		for (const [key, value] of Object.entries(values)) {
 			if (value) names.push(value);
 		}
 
-        console.log(names);
-        
-		
+		console.log(names);
+
 		updateBookingParticipants(booking.id, names)
 			.then(() => navigate("/reservations"))
 			.catch(() => {

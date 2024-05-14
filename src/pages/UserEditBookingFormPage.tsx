@@ -1,0 +1,137 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { z } from "zod";
+import { useEffect, useState } from "react";
+import { createProduct, getAllProductCategories, updateProduct } from "@/services/productApi";
+import { toast } from "@/components/ui/use-toast";
+import { useLocation, useNavigate } from "react-router-dom";
+import { IProduct } from "@/models/IProduct.ts";
+import { IBooking } from "@/models/IBooking";
+import { updateBookingParticipants } from "@/services/bookingApi";
+
+const formSchema = z.object({
+	name1: z.string().min(0).max(50),
+	name2: z.string().min(0).max(50),
+	name3: z.string().min(0).max(50),
+	name4: z.string().min(0).max(50),
+});
+
+export type productRequest = {
+	id?: number;
+	name: string;
+	image: string;
+	price: number;
+	stock: number;
+	category: string;
+};
+
+export default function UserEditBookingFormPage() {
+	const booking = useLocation().state as IBooking;
+	const navigate = useNavigate();
+
+	// useEffect(() => {
+	// 	getAllProductCategories()
+	// 		.then((res) => setCategories(res.data))
+	// 		.catch(() => {
+	// 			toast({
+	// 				title: "Åh nej! Noget gik galt!",
+	// 				description: `Kunne ikke finde kategorierne i systemet. Prøv igen på et senere tidspunkt.`,
+	// 				variant: "destructive",
+	// 			});
+	// 		});
+	// }, []);
+
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			name1: booking.participants[0] || "",
+			name2: booking.participants[1] || "",
+			name3: booking.participants[2] || "",
+			name4: booking.participants[3] || "",
+		},
+	});
+
+	const onSubmit = (values: z.infer<typeof formSchema>) => {
+		console.log(values);
+
+		const names = [];
+
+        for (const [key, value] of Object.entries(values)) {
+			if (value) names.push(value);
+		}
+
+        console.log(names);
+        
+		
+		updateBookingParticipants(booking.id, names)
+			.then(() => navigate("/reservations"))
+			.catch(() => {
+				toast({
+					title: "Åh nej! Noget gik galt!",
+					description: `Kunne ikke opdatere din booking i systemet. Prøv igen på et senere tidspunkt.`,
+					variant: "destructive",
+				});
+			});
+	};
+
+	return (
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+				<FormField
+					control={form.control}
+					name="name1"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Deltagere</FormLabel>
+							<FormControl>
+								<Input placeholder="Deltager 1" required {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="name2"
+					render={({ field }) => (
+						<FormItem>
+							<FormControl>
+								<Input placeholder="Deltager 2" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="name3"
+					render={({ field }) => (
+						<FormItem>
+							<FormControl>
+								<Input placeholder="Deltager 3" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="name4"
+					render={({ field }) => (
+						<FormItem>
+							<FormControl>
+								<Input placeholder="Deltager 4" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<Button type="submit">Opdater</Button>
+			</form>
+		</Form>
+	);
+}

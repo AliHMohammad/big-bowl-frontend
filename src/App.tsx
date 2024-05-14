@@ -10,6 +10,8 @@ import ProductFormPage from "@/pages/ProductFormPage.tsx";
 import ActivitiesPage from "./pages/ActivitiesPage";
 import ActivityFormPage from "./pages/ActivityFormPage";
 import BookingCalenderPage from "./pages/BookingCalenderPage";
+import UserBookingsPage from "./pages/UserBookingsPage";
+import UserEditBookingFormPage from "./pages/UserEditBookingFormPage";
 
 function App() {
 	return (
@@ -18,14 +20,24 @@ function App() {
 				<Routes>
 					<Route path="/" element={<HomePage />} />
 					<Route path="*" element={<h2>404 Page not found</h2>} />
-					<Route
-						path={"/reservations"}
-						element={
-							<RequireAuth>
-								<h2>Se reservationer</h2>
-							</RequireAuth>
-						}
-					/>
+					<Route path={"/reservations"}>
+						<Route
+							index
+							element={
+								<RequireAuth>
+									<UserBookingsPage />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="form"
+							element={
+								<RequireAuth>
+									<UserEditBookingFormPage />
+								</RequireAuth>
+							}
+						/>
+					</Route>
 					<Route
 						path={"/booking"}
 						element={
@@ -38,7 +50,8 @@ function App() {
 					<Route path={"/administration"}>
 						<Route
 							path="calender"
-							index element={
+							index
+							element={
 								<RequireAuth isAdmin={true}>
 									<BookingCalenderPage />
 								</RequireAuth>

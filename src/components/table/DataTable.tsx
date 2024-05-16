@@ -1,42 +1,37 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table.tsx";
-import { useState } from "react";
-import { Button } from "../ui/button.tsx";
 
 export type PaginationSize = {
-	pageIndex: number,
-	pageSize: number
-}
+	pageIndex: number;
+	pageSize: number;
+};
 
 type props<TData, TValue> = {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
-	pagination: PaginationSize
+	pagination: PaginationSize;
 };
 
 export default function DataTable<TData, TValue>({ columns, data, pagination }: props<TData, TValue>) {
-	
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		manualPagination: true,
 		state: {
-			pagination
-		}
-		
+			pagination,
+		},
 	});
 
-	
 	return (
 		<div className="rounded-md border">
 			<Table>
-				<TableHeader>
+				<TableHeader className="bg-slate-700">
 					{table.getHeaderGroups().map((headerGroup) => (
-						<TableRow key={headerGroup.id}>
+						<TableRow className="hover:bg-slate-700" key={headerGroup.id}>
 							{headerGroup.headers.map((header) => {
 								return (
-									<TableHead key={header.id}>
+									<TableHead className="font-bold text-white" key={header.id}>
 										{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 									</TableHead>
 								);
@@ -44,19 +39,21 @@ export default function DataTable<TData, TValue>({ columns, data, pagination }: 
 						</TableRow>
 					))}
 				</TableHeader>
-				<TableBody>
+				<TableBody className="bg-slate-800">
 					{table.getRowModel().rows?.length ? (
 						table.getRowModel().rows.map((row) => (
-							<TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+							<TableRow className="hover:bg-slate-700" key={row.id} data-state={row.getIsSelected() && "selected"}>
 								{row.getVisibleCells().map((cell) => (
-									<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+									<TableCell className="text-slate-50" key={cell.id}>
+										{flexRender(cell.column.columnDef.cell, cell.getContext())}
+									</TableCell>
 								))}
 							</TableRow>
 						))
 					) : (
 						<TableRow>
 							<TableCell colSpan={columns.length} className="h-24 text-center">
-								No results.
+								Ingen resultater.
 							</TableCell>
 						</TableRow>
 					)}

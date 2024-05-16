@@ -12,6 +12,7 @@ import ActivityFormPage from "./pages/ActivityFormPage";
 import BookingCalenderPage from "./pages/BookingCalenderPage";
 import UserBookingsPage from "./pages/UserBookingsPage";
 import UserEditBookingFormPage from "./pages/UserEditBookingFormPage";
+import ContentLayout from "./components/layouts/ContentLayout";
 
 function App() {
 	return (
@@ -25,7 +26,9 @@ function App() {
 							index
 							element={
 								<RequireAuth>
-									<UserBookingsPage />
+									<ContentLayout>
+										<UserBookingsPage />
+									</ContentLayout>
 								</RequireAuth>
 							}
 						/>
@@ -33,7 +36,9 @@ function App() {
 							path="form"
 							element={
 								<RequireAuth>
-									<UserEditBookingFormPage />
+									<ContentLayout>
+										<UserEditBookingFormPage />
+									</ContentLayout>
 								</RequireAuth>
 							}
 						/>
@@ -46,14 +51,15 @@ function App() {
 							</RequireAuth>
 						}
 					/>
-
 					<Route path={"/administration"}>
 						<Route
 							path="calender"
 							index
 							element={
 								<RequireAuth isAdmin={true}>
-									<BookingCalenderPage />
+									<ContentLayout>
+										<BookingCalenderPage />
+									</ContentLayout>
 								</RequireAuth>
 							}
 						/>
@@ -61,7 +67,9 @@ function App() {
 							index
 							element={
 								<RequireAuth isAdmin={true}>
-									<AdminDashboardPage />
+									<ContentLayout>
+										<AdminDashboardPage />
+									</ContentLayout>
 								</RequireAuth>
 							}
 						/>
@@ -71,7 +79,9 @@ function App() {
 								index
 								element={
 									<RequireAuth isAdmin={true}>
-										<ActivitiesPage />
+										<ContentLayout>
+											<ActivitiesPage />
+										</ContentLayout>
 									</RequireAuth>
 								}
 							/>
@@ -79,7 +89,9 @@ function App() {
 								path="form"
 								element={
 									<RequireAuth isAdmin={true}>
-										<ActivityFormPage />
+										<ContentLayout>
+											<ActivityFormPage />
+										</ContentLayout>
 									</RequireAuth>
 								}
 							/>
@@ -90,7 +102,9 @@ function App() {
 								index
 								element={
 									<RequireAuth isAdmin={true}>
-										<ProductsPage />
+										<ContentLayout>
+											<ProductsPage />
+										</ContentLayout>
 									</RequireAuth>
 								}
 							/>
@@ -98,7 +112,9 @@ function App() {
 								path="form"
 								element={
 									<RequireAuth isAdmin={true}>
-										<ProductFormPage />
+										<ContentLayout>
+											<ProductFormPage />
+										</ContentLayout>
 									</RequireAuth>
 								}
 							/>

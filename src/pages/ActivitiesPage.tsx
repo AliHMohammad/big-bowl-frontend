@@ -108,7 +108,7 @@ export default function ActivitiesPage() {
 					{"Forrige"}
 				</Button>
 				{activities?.totalPages ? (
-					<p>
+					<p className="text-white">
 						{" "}
 						Side {pagination.pageIndex + 1} / {activities?.totalPages}{" "}
 					</p>

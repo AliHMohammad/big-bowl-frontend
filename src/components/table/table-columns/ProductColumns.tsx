@@ -44,7 +44,7 @@ export const ProductColumns: ColumnDef<IProduct>[] = [
 			const product = row.original as IProduct;
 
 			return (
-				<div className="flex justify-center items-center hover:text-red-400 transition-all">
+				<div className="flex  hover:text-orange-500 transition-all">
 					<Link to={"form"} state={product}>
 						<FaRegEdit size={22} />
 					</Link>

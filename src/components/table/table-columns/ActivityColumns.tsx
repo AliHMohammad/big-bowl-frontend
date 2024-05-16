@@ -5,7 +5,6 @@ import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-
 export const ActivityColumns: ColumnDef<IActivity>[] = [
 	{
 		accessorKey: "id",
@@ -29,9 +28,7 @@ export const ActivityColumns: ColumnDef<IActivity>[] = [
 		cell: ({ row }) => {
 			const activity = row.original as IActivity;
 
-			return (
-				<p>{activity.isOpen ? "Åben" : "Lukket"}</p>
-			);
+			return <p>{activity.isOpen ? "Åben" : "Lukket"}</p>;
 		},
 	},
 	{
@@ -41,7 +38,7 @@ export const ActivityColumns: ColumnDef<IActivity>[] = [
 			const activity = row.original as IActivity;
 
 			return (
-				<div className="flex justify-center items-center hover:text-red-400 transition-all">
+				<div className="flex hover:text-orange-500 transition-all">
 					<Link to={"form"} state={activity}>
 						<FaRegEdit size={22} />
 					</Link>

@@ -10,41 +10,33 @@ import { IPagination } from "@/models/IPagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 
-
-
 export default function ProductsPage() {
-	const [products, setProducts] = useState<IPagination<IProduct> | null>(null)
+	const [products, setProducts] = useState<IPagination<IProduct> | null>(null);
 	const [pagination, setPagination] = useState<PaginationSize>({
 		pageIndex: 0, //initial page index
 		pageSize: 5, //default page size
 	});
 	const [sort, setSort] = useState({
 		sortBy: "id",
-		sortDir: "ASC"
+		sortDir: "ASC",
 	});
 	const [filter, setFilter] = useState("");
 	const [search, setSearch] = useState("");
-
-	
 
 	useEffect(() => {
 		const queryParams = new URLSearchParams({
 			pageIndex: String(pagination.pageIndex),
 			pageSize: String(pagination.pageSize),
-			...sort
-		})
+			...sort,
+		});
 
-		if (filter != "none")
-			queryParams.append("filterBy", filter)
-		if (search)
-			queryParams.append("searchBy", search)
+		if (filter != "none") queryParams.append("filterBy", filter);
+		if (search) queryParams.append("searchBy", search);
 
-		
 		console.log(queryParams);
-		
 
 		getAllProducts(queryParams.toString())
-			.then(({data}) => {
+			.then(({ data }) => {
 				setProducts(data);
 			})
 			.catch(() => {
@@ -62,7 +54,7 @@ export default function ProductsPage() {
 				<div className="flex justify-between">
 					<div className="flex gap-4 flex-wrap">
 						<Input
-							className="w-[200px]"
+							className="w-[200px] bg-gray-100"
 							placeholder="Søg efter produkt"
 							onChange={(e) => {
 								setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
@@ -76,7 +68,7 @@ export default function ProductsPage() {
 									setSort((prevState) => ({ ...prevState, sortBy: value }));
 								}}
 							>
-								<SelectTrigger className="w-[140px]">
+								<SelectTrigger className="w-[140px] bg-gray-100">
 									<SelectValue placeholder="Sorter efter" />
 								</SelectTrigger>
 								<SelectContent>
@@ -94,7 +86,7 @@ export default function ProductsPage() {
 									setSort((prevState) => ({ ...prevState, sortDir: value }));
 								}}
 							>
-								<SelectTrigger className="w-[120px]">
+								<SelectTrigger className="w-[120px] bg-gray-100">
 									<SelectValue />
 								</SelectTrigger>
 								<SelectContent>
@@ -110,7 +102,7 @@ export default function ProductsPage() {
 								setFilter(value);
 							}}
 						>
-							<SelectTrigger className="w-[160px]">
+							<SelectTrigger className="w-[160px] bg-gray-100">
 								<SelectValue placeholder="Filtrer efter" />
 							</SelectTrigger>
 							<SelectContent>
@@ -126,24 +118,31 @@ export default function ProductsPage() {
 						<Button>Tilføj produkt</Button>
 					</Link>
 				</div>
-				{products && <DataTable columns={ProductColumns} data={products.content} pagination={pagination} />}
-
-				<div className="flex justify-evenly">
-					<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))} disabled={products?.first}>
-						{"Forrige"}
-					</Button>
-
-					{products?.totalPages ? (
-						<p>
-							{" "}
-							Side {pagination.pageIndex + 1} / {products?.totalPages}{" "}
-						</p>
-					) : null}
-					
-					<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))} disabled={products?.last}>
-						{"Næste"}
-					</Button>
-				</div>
+				{products && (
+					<>
+						<DataTable columns={ProductColumns} data={products.content} pagination={pagination} />
+						<div className="flex justify-evenly">
+							<Button
+								onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))}
+								disabled={products?.first}
+							>
+								{"Forrige"}
+							</Button>
+							{products?.totalPages ? (
+								<p className="text-white">
+									{" "}
+									Side {pagination.pageIndex + 1} / {products?.totalPages}{" "}
+								</p>
+							) : null}
+							<Button
+								onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))}
+								disabled={products?.last}
+							>
+								{"Næste"}
+							</Button>
+						</div>
+					</>
+				)}
 			</div>
 		</>
 	);

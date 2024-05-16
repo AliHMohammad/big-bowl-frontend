@@ -4,6 +4,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { toast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import UserBooking from "@/components/core/UserBooking";
+import { SkeletonCard } from "@/components/core/skeletons/SkeletonCard.tsx";
 
 export default function UserBookingsPage() {
 	const [bookings, setBookings] = useState<IBooking[] | null>(null);
@@ -29,7 +30,15 @@ export default function UserBookingsPage() {
 	return (
 		<div>
 			<div>Dine Reservationer</div>
-			<div className="flex gap-2">{bookings?.map((b) => <UserBooking key={b.id} booking={b} />)}</div>
+			{bookings ? (
+				<div className="flex gap-2">{bookings.map((b) => <UserBooking key={b.id} booking={b} />)}</div>
+			) : (
+				<>
+
+					<SkeletonCard />
+				</>
+			)}
+
 		</div>
 	);
 }

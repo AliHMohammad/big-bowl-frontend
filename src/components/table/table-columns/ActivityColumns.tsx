@@ -1,25 +1,15 @@
-import { IProduct } from "@/models/IProduct";
+import { IActivity } from "@/models/IActivity.ts";
+import { updateStatusOnActivity } from "@/services/activitiesApi.ts";
 import { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-export const ProductColumns: ColumnDef<IProduct>[] = [
+
+export const ActivityColumns: ColumnDef<IActivity>[] = [
 	{
 		accessorKey: "id",
 		header: "Id",
-	},
-	{
-		accessorKey: "image",
-		header: "Billede",
-		cell: ({ row }) => {
-			const product = row.original as IProduct;
-
-			return (
-				<div className="flex justify-center">
-					<img src={product.image} className="h-12" />
-				</div>
-			);
-		},
 	},
 	{
 		accessorKey: "name",
@@ -30,22 +20,29 @@ export const ProductColumns: ColumnDef<IProduct>[] = [
 		header: "Pris",
 	},
 	{
-		accessorKey: "stock",
-		header: "Antal på lager",
+		accessorKey: "type",
+		header: "Kategori",
 	},
 	{
-		accessorKey: "category",
-		header: "Kategori",
+		accessorKey: "isOpen",
+		header: "Status",
+		cell: ({ row }) => {
+			const activity = row.original as IActivity;
+
+			return (
+				<p>{activity.isOpen ? "Åben" : "Lukket"}</p>
+			);
+		},
 	},
 	{
 		accessorKey: "edit",
 		header: "Rediger",
 		cell: ({ row }) => {
-			const product = row.original as IProduct;
+			const activity = row.original as IActivity;
 
 			return (
 				<div className="flex justify-center items-center hover:text-red-400 transition-all">
-					<Link to={"form"} state={product}>
+					<Link to={"form"} state={activity}>
 						<FaRegEdit size={22} />
 					</Link>
 				</div>

@@ -1,9 +1,9 @@
-import DataTable, { PaginationSize } from "@/components/core/DataTable";
+import DataTable, { PaginationSize } from "@/components/table/DataTable.tsx";
 import { IActivity } from "@/models/IActivity";
 import { getAllActivities } from "@/services/activitiesApi";
 import { toast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
-import { ActivityColumns } from "@/components/table-columns/ActivityColumns";
+import { ActivityColumns } from "@/components/table/table-columns/ActivityColumns";
 import { Button } from "@/components/ui/button";
 import { IPagination } from "@/models/IPagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";

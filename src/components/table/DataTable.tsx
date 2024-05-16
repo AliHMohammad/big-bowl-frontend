@@ -1,7 +1,7 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table.tsx";
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../ui/button.tsx";
 
 export type PaginationSize = {
 	pageIndex: number,

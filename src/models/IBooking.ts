@@ -12,5 +12,12 @@ export interface IBooking {
     user: IUser,
     activity: IActivity,
     participants: string[],
-    products: IProduct[]
+    products: IBookingProduct[]
+}
+
+interface IBookingProduct {
+    id: number,
+    name: string,
+    image: string,
+    quantity: number
 }

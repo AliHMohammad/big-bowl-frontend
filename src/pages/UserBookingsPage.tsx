@@ -5,6 +5,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import UserBooking from "@/components/core/UserBooking";
 import { SkeletonCard } from "@/components/core/skeletons/SkeletonCard.tsx";
+import { SkeletonBookingCard } from "@/components/core/skeletons/SkeletonBookingCard.tsx";
 
 export default function UserBookingsPage() {
 	const [bookings, setBookings] = useState<IBooking[] | null>(null);
@@ -31,12 +32,17 @@ export default function UserBookingsPage() {
 		<div>
 			<div>Dine Reservationer</div>
 			{bookings ? (
-				<div className="flex gap-2">{bookings.map((b) => <UserBooking key={b.id} booking={b} />)}</div>
+				<div className="flex flex-wrap gap-2">{bookings.map((b) => <UserBooking key={b.id} booking={b} />)}</div>
 			) : (
-				<>
-
-					<SkeletonCard />
-				</>
+				<div className="flex flex-wrap gap-2">
+					<SkeletonBookingCard />
+					<SkeletonBookingCard />
+					<SkeletonBookingCard />
+					<SkeletonBookingCard />
+					<SkeletonBookingCard />
+					<SkeletonBookingCard />
+					<SkeletonBookingCard />
+				</div>
 			)}
 
 		</div>

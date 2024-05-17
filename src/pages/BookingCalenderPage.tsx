@@ -10,8 +10,8 @@ import { IBooking } from "@/models/IBooking";
 import { Label } from "@/components/ui/label";
 
 setOptions({
-	theme: "ios",
-	themeVariant: "light",
+	theme: "windows",
+	themeVariant: "dark",
 });
 
 interface BookingCalender extends IBooking {
@@ -46,7 +46,7 @@ export default function BookingCalenderPage() {
 			.then(({ data }) => {
 				const result = data.map((a) => ({
 					...a,
-					background: a.isOpen ? "" : "red",
+					background: a.isOpen ? "" : "maroon",
 				}));
 				setActivities(result);
 			})
@@ -111,6 +111,8 @@ export default function BookingCalenderPage() {
 					view={myView}
 					data={bookings as MbscCalendarEvent[]}
 					resources={activities}
+
+					
 				/>
 			</div>
 		</div>

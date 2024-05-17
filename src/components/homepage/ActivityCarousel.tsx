@@ -4,9 +4,9 @@ import Autoplay from "embla-carousel-autoplay";
 
 export default function ActivityCarousel() {
 	return (
-		<section className="w-1/2">
+		<section className="w-[52rem]">
 			<Carousel
-				className="h-[30rem] flex items-center "
+				className="h-[35rem] flex items-center"
 				opts={{ loop: true }}
 				plugins={[
 					Autoplay({

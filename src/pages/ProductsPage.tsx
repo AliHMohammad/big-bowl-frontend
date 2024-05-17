@@ -51,75 +51,75 @@ export default function ProductsPage() {
 	return (
 		<>
 			<div className="flex flex-col gap-4">
-				<div className="flex justify-between">
-					<div className="flex gap-4 flex-wrap">
-						<Input
-							className="w-[200px] bg-gray-100"
-							placeholder="Søg efter produkt"
-							onChange={(e) => {
-								setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
-								setSearch(e.target.value);
-							}}
-						/>
-						<div className="flex gap-1">
-							<Select
-								onValueChange={(value) => {
-									setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
-									setSort((prevState) => ({ ...prevState, sortBy: value }));
-								}}
-							>
-								<SelectTrigger className="w-[140px] bg-gray-100">
-									<SelectValue placeholder="Sorter efter" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="id">ID</SelectItem>
-									<SelectItem value="name">Navn</SelectItem>
-									<SelectItem value="price">Pris</SelectItem>
-									<SelectItem value="stock">Antal</SelectItem>
-								</SelectContent>
-							</Select>
-
-							<Select
-								defaultValue="ASC"
-								onValueChange={(value) => {
-									setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
-									setSort((prevState) => ({ ...prevState, sortDir: value }));
-								}}
-							>
-								<SelectTrigger className="w-[120px] bg-gray-100">
-									<SelectValue />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="ASC">Stigende</SelectItem>
-									<SelectItem value="DESC">Faldende</SelectItem>
-								</SelectContent>
-							</Select>
-						</div>
-
-						<Select
-							onValueChange={(value) => {
-								setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
-								setFilter(value);
-							}}
-						>
-							<SelectTrigger className="w-[160px] bg-gray-100">
-								<SelectValue placeholder="Filtrer efter" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="none">Ingen</SelectItem>
-								<SelectItem value="Snacks">Snacks</SelectItem>
-								<SelectItem value="Alkohol">Alkohol</SelectItem>
-								<SelectItem value="Drikkevarer">Drikkevarer</SelectItem>
-								<SelectItem value="Andet">Andet</SelectItem>
-							</SelectContent>
-						</Select>
-					</div>
-					<Link to={"form"}>
-						<Button>Tilføj produkt</Button>
-					</Link>
-				</div>
 				{products && (
 					<>
+						<div className="flex justify-between">
+							<div className="flex gap-4 flex-wrap">
+								<Input
+									className="w-[200px] bg-gray-100"
+									placeholder="Søg efter produkt"
+									onChange={(e) => {
+										setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+										setSearch(e.target.value);
+									}}
+								/>
+								<div className="flex gap-1">
+									<Select
+										onValueChange={(value) => {
+											setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+											setSort((prevState) => ({ ...prevState, sortBy: value }));
+										}}
+									>
+										<SelectTrigger className="w-[140px] bg-gray-100">
+											<SelectValue placeholder="Sorter efter" />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem value="id">ID</SelectItem>
+											<SelectItem value="name">Navn</SelectItem>
+											<SelectItem value="price">Pris</SelectItem>
+											<SelectItem value="stock">Antal</SelectItem>
+										</SelectContent>
+									</Select>
+
+									<Select
+										defaultValue="ASC"
+										onValueChange={(value) => {
+											setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+											setSort((prevState) => ({ ...prevState, sortDir: value }));
+										}}
+									>
+										<SelectTrigger className="w-[120px] bg-gray-100">
+											<SelectValue />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem value="ASC">Stigende</SelectItem>
+											<SelectItem value="DESC">Faldende</SelectItem>
+										</SelectContent>
+									</Select>
+								</div>
+
+								<Select
+									onValueChange={(value) => {
+										setPagination((prevState) => ({ ...prevState, pageIndex: 0 }));
+										setFilter(value);
+									}}
+								>
+									<SelectTrigger className="w-[160px] bg-gray-100">
+										<SelectValue placeholder="Filtrer efter" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="none">Ingen</SelectItem>
+										<SelectItem value="Snacks">Snacks</SelectItem>
+										<SelectItem value="Alkohol">Alkohol</SelectItem>
+										<SelectItem value="Drikkevarer">Drikkevarer</SelectItem>
+										<SelectItem value="Andet">Andet</SelectItem>
+									</SelectContent>
+								</Select>
+							</div>
+							<Link to={"form"}>
+								<Button>Tilføj produkt</Button>
+							</Link>
+						</div>
 						<DataTable columns={ProductColumns} data={products.content} pagination={pagination} />
 						<div className="flex justify-evenly">
 							<Button

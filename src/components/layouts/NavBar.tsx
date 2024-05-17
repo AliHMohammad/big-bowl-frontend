@@ -6,7 +6,7 @@ import NavBarLinks from "@/components/layouts/NavBarLinks.tsx";
 export default function NavBar() {
 	return (
 		<>
-			<nav className={"flex flex-wrap gap-7 text-sm sm:text-lg text-white items-center"}>
+			<nav className={"flex flex-wrap gap-7 text-sm sm:text-lg text-white"}>
 				<NavBarLinks/>
 				<ClerkButtons/>
 			</nav>

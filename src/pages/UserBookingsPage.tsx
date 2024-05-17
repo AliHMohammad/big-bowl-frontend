@@ -1,6 +1,6 @@
 import { IBooking } from "@/models/IBooking";
 import { getAllBookingsById } from "@/services/bookingApi";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import { toast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import UserBooking from "@/components/core/UserBooking";
@@ -10,6 +10,7 @@ import { SkeletonBookingCard } from "@/components/core/skeletons/SkeletonBooking
 export default function UserBookingsPage() {
 	const [bookings, setBookings] = useState<IBooking[] | null>(null);
 	const { userId } = useAuth();
+	const { user } = useUser();
 
 	useEffect(() => {
 		getAllBookingsById(userId as string)
@@ -29,10 +30,11 @@ export default function UserBookingsPage() {
 	
 
 	return (
-		<div>
-			<div>Dine Reservationer</div>
+		<section>
+			<h2 className="text-white text-4xl mb-5 font-semibold">Dine Reservationer</h2>
+			<div className="text-white mb-5">Hej {user?.firstName}, her er dine kommende reservationer</div>
 			{bookings ? (
-				<div className="flex flex-wrap gap-2">{bookings.map((b) => <UserBooking key={b.id} booking={b} />)}</div>
+				<div className="flex flex-wrap gap-5">{bookings.map((b) => <UserBooking key={b.id} booking={b} />)}</div>
 			) : (
 				<div className="flex flex-wrap gap-2">
 					<SkeletonBookingCard />
@@ -45,6 +47,6 @@ export default function UserBookingsPage() {
 				</div>
 			)}
 
-		</div>
+		</section>
 	);
 }

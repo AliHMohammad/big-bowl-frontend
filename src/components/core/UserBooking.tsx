@@ -6,12 +6,9 @@ import { activityTypeDictionary } from "@/utils/dictionary.ts";
 import { SkeletonCard } from "@/components/core/skeletons/SkeletonCard.tsx";
 import { format } from "date-fns";
 import { da } from "date-fns/locale";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
-import { SkeletonBookingCard } from "@/components/core/skeletons/SkeletonBookingCard.tsx";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { GoPerson } from "react-icons/go";
+import { FaShoppingCart } from "react-icons/fa";
 
 type Props = {
 	booking: IBooking;
@@ -24,10 +21,9 @@ export default function UserBooking({ booking }: Props) {
 	const timeStart = format(new Date(booking.start), "p", { locale: da });
 	const timeEnd = format(new Date(booking.end), "p", { locale: da });
 
-
 	return (
 		<>
-			<article className="bg-red-400 p-5 gap-3 rounded-md flex flex-col items-center w-60">
+			<article className="bg-orange-300 p-5 gap-3 rounded-md flex flex-col items-center w-60">
 				<div className="w-52">
 					<img className="cover rounded-md" src={imgSrc} alt={booking.activity.type} />
 				</div>
@@ -36,25 +32,41 @@ export default function UserBooking({ booking }: Props) {
 					<p>{booking.activity.name}</p>
 					<p>Pris: {booking.price} kr.</p>
 					<p>Dato: {date}</p>
-					<p>Tid: {timeStart} - {timeEnd}</p>
-					<div className={"my-3 flex flex-row gap-1"}>
+					<p>
+						Tid: {timeStart} - {timeEnd}
+					</p>
+					<div className={"my-3 flex flex-row justify-evenly gap-1"}>
 						<Popover>
-							<PopoverTrigger><Button>Deltagere</Button></PopoverTrigger>
-							<PopoverContent>{booking.participants.map((p, i) =>
-								<div className="flex items-center justify-between">
-									<p>{i + 1}: {p}</p>
-								</div>,
-							)}</PopoverContent>
+							<PopoverTrigger>
+								<Button size="icon">
+									<GoPerson />
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent>
+								{booking.participants.map((p, i) => (
+									<div className="flex items-center justify-between">
+										<p>
+											{i + 1}: {p}
+										</p>
+									</div>
+								))}
+							</PopoverContent>
 						</Popover>
 						<Popover>
-							<PopoverTrigger><Button>Produkter</Button></PopoverTrigger>
-							<PopoverContent>{booking.products.map((p) =>
-								<div className="flex items-center justify-between">
-									<img className="w-12" src={p.image} />
-									<div>{p.name}</div>
-									<div> {p.quantity} stk.</div>
-								</div>,
-							)}</PopoverContent>
+							<PopoverTrigger>
+								<Button size="icon">
+									<FaShoppingCart />
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent>
+								{booking.products.map((p) => (
+									<div className="flex items-center justify-between">
+										<img className="w-12" src={p.image} />
+										<div>{p.name}</div>
+										<div> {p.quantity} stk.</div>
+									</div>
+								))}
+							</PopoverContent>
 						</Popover>
 					</div>
 					<div className={"flex justify-center pt-4"}>

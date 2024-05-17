@@ -8,8 +8,8 @@ export default function ProductFormPage() {
 
 	return (
 		<>
-			<h2 className={"text-white text-center text-3xl font-bold"}>{productToEdit ? "Rediger" : "Opret"} Produkt</h2>
-			<section>
+			<h2 className={"text-white text-center text-3xl font-bold mb-10"}>{productToEdit ? "Rediger" : "Opret"} Produkt</h2>
+			<section className="flex justify-center">
 				<ProductForm product={productToEdit} />
 			</section>
 		</>

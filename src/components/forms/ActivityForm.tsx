@@ -54,15 +54,15 @@ export default function ActivityForm({activity}: Props) {
     return (
 		<>
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-24">
 					<FormField
 						control={form.control}
 						name="isOpen"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Status</FormLabel>
+								<FormLabel className="text-white">Status</FormLabel>
 								<FormControl>
-									<Select onValueChange={value => field.onChange(value === "true")} defaultValue={String(field.value)}>
+									<Select onValueChange={(value) => field.onChange(value === "true")} defaultValue={String(field.value)}>
 										<SelectTrigger className="">
 											<SelectValue placeholder="Vælg status" />
 										</SelectTrigger>
@@ -83,7 +83,7 @@ export default function ActivityForm({activity}: Props) {
 						)}
 					/>
 
-					<Button type="submit">Opdater</Button>
+					<div className="flex justify-center"><Button type="submit">Opdater</Button></div>
 				</form>
 			</Form>
 		</>

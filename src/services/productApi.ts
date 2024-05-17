@@ -3,7 +3,8 @@ import axios, {AxiosResponse } from "axios";
 import { IProduct } from "@/models/IProduct";
 import { productRequest } from "@/components/forms/ProductForm";
 import { IPagination } from "@/models/IPagination";
-import { PaginationSize } from "@/components/core/DataTable";
+
+
 
 async function getAllProducts(queryParams: string): Promise<AxiosResponse<IPagination<IProduct>, unknown>> {
 	return await axios.get(`${API_URL}/products?` + queryParams);

@@ -9,38 +9,29 @@ export default function NavBarLinks() {
 
 	return (
 		<>
-			<NavLink to={"/"}>
-				<h3>
-					Hjem
-				</h3>
-			</NavLink>
+			<NavLink className="hover:text-orange-300 hover:scale-105 transition-all" to={"/"}>
+				<h3>Hjem</h3>
 
+			</NavLink>
 			{isAdmin && (
 				<>
-					<NavLink to={"/administration"}>
-						<h3>
-							Administration
-						</h3>
-					</NavLink>
-				</>
-				)}
 
-			{isUser  && (
-				<>
-					<NavLink to={"/booking"}>
-						<h3>
-							Book aktivitet
-						</h3>
-					</NavLink>
-					<NavLink to={"/reservations"}>
-						<h3>
-							Se reservationer
-						</h3>
+					<NavLink className="hover:text-orange-300 hover:scale-105 transition-all" to={"/administration"}>
+						<h3>Administration</h3>
 					</NavLink>
 				</>
 			)}
 
-
+			{isUser && (
+				<>
+					<NavLink className="hover:text-orange-300 hover:scale-105 transition-all text-center" to={"/booking"}>
+						<h3>Book Aktivitet</h3>
+					</NavLink>
+					<NavLink className="hover:text-orange-300 hover:scale-105 transition-all text-center" to={"/reservations"}>
+						<h3>Se Reservationer</h3>
+					</NavLink>
+				</>
+			)}
 		</>
-	)
+	);
 }

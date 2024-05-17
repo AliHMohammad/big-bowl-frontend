@@ -8,6 +8,14 @@ import AdminDashboardPage from "./pages/AdminDashboardPage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductFormPage from "@/pages/ProductFormPage.tsx";
 
+import ActivitiesPage from "./pages/ActivitiesPage";
+import ActivityFormPage from "./pages/ActivityFormPage";
+import BookingCalenderPage from "./pages/BookingCalenderPage";
+import UserBookingsPage from "./pages/UserBookingsPage";
+import UserEditBookingFormPage from "./pages/UserEditBookingFormPage";
+import ContentLayout from "./components/layouts/ContentLayout";
+
+
 function App() {
 	return (
 		<>
@@ -15,14 +23,28 @@ function App() {
 				<Routes>
 					<Route path="/" element={<HomePage />} />
 					<Route path="*" element={<h2>404 Page not found</h2>} />
-					<Route
-						path={"/reservations"}
-						element={
-							<RequireAuth>
-								<h2>Se reservationer</h2>
-							</RequireAuth>
-						}
-					/>
+					<Route path={"/reservations"}>
+						<Route
+							index
+							element={
+								<RequireAuth>
+									<ContentLayout>
+										<UserBookingsPage />
+									</ContentLayout>
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="form"
+							element={
+								<RequireAuth>
+									<ContentLayout>
+										<UserEditBookingFormPage />
+									</ContentLayout>
+								</RequireAuth>
+							}
+						/>
+					</Route>
 					<Route
 						path={"/booking"}
 						element={
@@ -31,22 +53,37 @@ function App() {
 							</RequireAuth>
 						}
 					/>
-
 					<Route path={"/administration"}>
+						<Route
+							path="calender"
+							index
+							element={
+								<RequireAuth isAdmin={true}>
+									<ContentLayout>
+										<BookingCalenderPage />
+									</ContentLayout>
+								</RequireAuth>
+							}
+						/>
 						<Route
 							index
 							element={
 								<RequireAuth isAdmin={true}>
-									<AdminDashboardPage />
+									<ContentLayout>
+										<AdminDashboardPage />
+									</ContentLayout>
 								</RequireAuth>
 							}
 						/>
-						<Route path="products">
+
+						<Route path="activities">
 							<Route
 								index
 								element={
 									<RequireAuth isAdmin={true}>
-										<ProductsPage />
+										<ContentLayout>
+											<ActivitiesPage />
+										</ContentLayout>
 									</RequireAuth>
 								}
 							/>
@@ -54,17 +91,36 @@ function App() {
 								path="form"
 								element={
 									<RequireAuth isAdmin={true}>
-										<ProductFormPage />
+										<ContentLayout>
+											<ActivityFormPage />
+										</ContentLayout>
+									</RequireAuth>
+								}
+							/>
+						</Route>
+						<Route path="products">
+							<Route
+								index
+								element={
+									<RequireAuth isAdmin={true}>
+										<ContentLayout>
+											<ProductsPage />
+										</ContentLayout>
+									</RequireAuth>
+								}
+							/>
+							<Route
+								path="form"
+								element={
+									<RequireAuth isAdmin={true}>
+										<ContentLayout>
+											<ProductFormPage />
+										</ContentLayout>
 									</RequireAuth>
 								}
 							/>
 						</Route>
 					</Route>
-
-					{/*<Route path="/products" >
-						<Route index element={<ProductListPage/>}/>
-						<Route path=":id" element={<DetailedProductPage/>}/>
-					</Route>*/}
 				</Routes>
 			</PageLayout>
 			<Toaster />

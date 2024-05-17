@@ -11,7 +11,7 @@ export default function VideoPlayer() {
 				loop
 			></video>
 			<div className=" z-50 relative flex items-center justify-center w-2/3 sm:w-1/3 text-center m-auto">
-				<p className="text-white text-3xl sm:text-6xl marker:text-pretty font-bold">
+				<p className="text-white text-3xl sm:text-6xl font-bold">
 					<span className="text-orange-300">De sjoveste oplevelser</span> er dem, vi skaber med hinanden
 				</p>
 			</div>

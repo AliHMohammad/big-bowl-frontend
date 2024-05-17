@@ -9,13 +9,13 @@ export default function NavBarLinks() {
 
 	return (
 		<>
-			<NavLink className="hover:text-orange-300 transition-all" to={"/"}>
+			<NavLink className="hover:text-orange-300 hover:scale-105 transition-all" to={"/"}>
 				<h3>Hjem</h3>
 			</NavLink>
 
 			{isAdmin && (
 				<>
-					<NavLink className="hover:text-orange-300 transition-all" to={"/administration"}>
+					<NavLink className="hover:text-orange-300 hover:scale-105 transition-all" to={"/administration"}>
 						<h3>Administration</h3>
 					</NavLink>
 				</>
@@ -23,10 +23,10 @@ export default function NavBarLinks() {
 
 			{isUser && (
 				<>
-					<NavLink className="hover:text-orange-300 transition-all" to={"/booking"}>
+					<NavLink className="hover:text-orange-300 hover:scale-105 transition-all" to={"/booking"}>
 						<h3>Book aktivitet</h3>
 					</NavLink>
-					<NavLink className="hover:text-orange-300 transition-all" to={"/reservations"}>
+					<NavLink className="hover:text-orange-300 hover:scale-105 transition-all" to={"/reservations"}>
 						<h3>Se reservationer</h3>
 					</NavLink>
 				</>

@@ -39,7 +39,7 @@ export default function ClerkButtons() {
 	}, [userId]);
 
 	return (
-		<div>
+		<div className="flex items-end">
 			<SignedOut>
 				<SignInButton mode={"modal"} />
 			</SignedOut>

@@ -4,6 +4,8 @@ import { IProduct } from "@/models/IProduct";
 import { productRequest } from "@/components/forms/ProductForm";
 import { IPagination } from "@/models/IPagination";
 
+
+
 async function getAllProducts(queryParams: string): Promise<AxiosResponse<IPagination<IProduct>, unknown>> {
 	return await axios.get(`${API_URL}/products?` + queryParams);
 }

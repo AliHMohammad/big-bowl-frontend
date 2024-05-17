@@ -11,10 +11,11 @@ export default function NavBarLinks() {
 		<>
 			<NavLink className="hover:text-orange-300 hover:scale-105 transition-all" to={"/"}>
 				<h3>Hjem</h3>
-			</NavLink>
 
+			</NavLink>
 			{isAdmin && (
 				<>
+
 					<NavLink className="hover:text-orange-300 hover:scale-105 transition-all" to={"/administration"}>
 						<h3>Administration</h3>
 					</NavLink>

@@ -3,12 +3,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllProducts } from "@/services/productApi";
 import { toast } from "@/components/ui/use-toast";
+
 import DataTable, { PaginationSize } from "@/components/table/DataTable.tsx";
 import { ProductColumns } from "@/components/table/table-columns/ProductColumns.tsx";
+
 import { Button } from "@/components/ui/button";
 import { IPagination } from "@/models/IPagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+
 
 export default function ProductsPage() {
 	const [products, setProducts] = useState<IPagination<IProduct> | null>(null);
@@ -27,6 +30,7 @@ export default function ProductsPage() {
 		const queryParams = new URLSearchParams({
 			pageIndex: String(pagination.pageIndex),
 			pageSize: String(pagination.pageSize),
+
 			...sort,
 		});
 

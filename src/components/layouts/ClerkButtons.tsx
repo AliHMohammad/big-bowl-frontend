@@ -15,12 +15,14 @@ export default function ClerkButtons() {
 	const { isSignedIn, user } = useUser();
 	const { getToken, userId } = useAuth();
 
+
 	console.log(user);
 
 	useEffect(() => {
 		if (!isSignedIn) {
 			return;
 		}
+
 
 		createUserInDB({
 			id: userId,
@@ -49,3 +51,4 @@ export default function ClerkButtons() {
 		</div>
 	);
 }
+

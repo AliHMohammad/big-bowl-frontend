@@ -36,6 +36,7 @@ export default function ProductForm({ product }: Props) {
 	const [categories, setCategories] = useState<string[] | null>(null);
 	const navigate = useNavigate();
 
+
 	useEffect(() => {
 		getAllProductCategories()
 			.then((res) => setCategories(res.data))
@@ -65,10 +66,12 @@ export default function ProductForm({ product }: Props) {
 		if (product) {
 			// PUT
 
+
 			updateProduct({
 				...values,
 				id: product.id,
 			})
+
 				.then(() => {
 					toast({
 						title: "Produkt opdateret!",
@@ -84,6 +87,8 @@ export default function ProductForm({ product }: Props) {
 						variant: "destructive",
 					});
 				});
+
+       
 		} else {
 			// POST
 			createProduct(values as productRequest)
@@ -103,6 +108,7 @@ export default function ProductForm({ product }: Props) {
 					});
 				});
 		}
+
 	};
 
 	return (
@@ -114,6 +120,7 @@ export default function ProductForm({ product }: Props) {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel className="text-white">Navn</FormLabel>
+
 							<FormControl>
 								<Input placeholder="Produkt navn" {...field} />
 							</FormControl>
@@ -128,6 +135,7 @@ export default function ProductForm({ product }: Props) {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel className="text-white">Pris</FormLabel>
+
 							<FormControl>
 								<Input placeholder="Pris i kroner (DKK)" type="number" min={0} {...field} />
 							</FormControl>
@@ -141,7 +149,9 @@ export default function ProductForm({ product }: Props) {
 					name="image"
 					render={({ field }) => (
 						<FormItem>
+
 							<FormLabel className="text-white">Billede</FormLabel>
+
 							<FormControl>
 								<Input placeholder="(.jpg, .jpeg, .png)" {...field} />
 							</FormControl>
@@ -155,7 +165,9 @@ export default function ProductForm({ product }: Props) {
 					name="stock"
 					render={({ field }) => (
 						<FormItem>
+
 							<FormLabel className="text-white">Antal</FormLabel>
+
 							<FormControl>
 								<Input placeholder="Produkt navn" type="number" min={0} {...field} />
 							</FormControl>
@@ -169,7 +181,9 @@ export default function ProductForm({ product }: Props) {
 					name="category"
 					render={({ field }) => (
 						<FormItem>
+
 							<FormLabel className="text-white">Kategori</FormLabel>
+
 							<FormControl>
 								<Select onValueChange={field.onChange} defaultValue={field.value}>
 									<SelectTrigger className="">
@@ -192,9 +206,11 @@ export default function ProductForm({ product }: Props) {
 					)}
 				/>
 
+
 				<div className="flex justify-center">
 					<Button type="submit">{product ? "Opdater" : "Opret"}</Button>
 				</div>
+
 			</form>
 		</Form>
 	);

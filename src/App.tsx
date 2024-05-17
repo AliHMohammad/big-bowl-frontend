@@ -7,12 +7,14 @@ import RequireAuth from "@/services/RequireAuth.tsx";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductFormPage from "@/pages/ProductFormPage.tsx";
+
 import ActivitiesPage from "./pages/ActivitiesPage";
 import ActivityFormPage from "./pages/ActivityFormPage";
 import BookingCalenderPage from "./pages/BookingCalenderPage";
 import UserBookingsPage from "./pages/UserBookingsPage";
 import UserEditBookingFormPage from "./pages/UserEditBookingFormPage";
 import ContentLayout from "./components/layouts/ContentLayout";
+
 
 function App() {
 	return (
@@ -96,7 +98,6 @@ function App() {
 								}
 							/>
 						</Route>
-
 						<Route path="products">
 							<Route
 								index

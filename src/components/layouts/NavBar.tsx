@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import ClerkButtons from "@/components/layouts/ClerkButtons.tsx";
 import NavBarLinks from "@/components/layouts/NavBarLinks.tsx";
 
+
 export default function NavBar() {
 	return (
 		<>

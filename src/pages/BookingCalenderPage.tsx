@@ -7,7 +7,6 @@ import { getAllActivitiesCalender } from "@/services/activitiesApi";
 import { toast } from "@/components/ui/use-toast";
 import { getAllBookings } from "@/services/bookingApi";
 import { IBooking } from "@/models/IBooking";
-import { Label } from "@/components/ui/label";
 
 setOptions({
 	theme: "windows",
@@ -23,18 +22,23 @@ interface ActivityCalender extends IActivity {
 	background: string;
 }
 
+type Timeline = "day" | "week" | "month" | "year" | undefined;
+
 export default function BookingCalenderPage() {
 	const [bookings, setBookings] = useState<BookingCalender[] | null>(null);
 	const [activities, setActivities] = useState<ActivityCalender[] | null>(null);
 	const [filter, setFilter] = useState<string>("");
+	const [timeline, setTimeline] = useState<Timeline>("day");
 
 	const myView = useMemo<MbscEventcalendarView>(
 		() => ({
 			timeline: {
-				type: "day",
+				type: timeline,
+				startTime: "10:00",
+				endTime: "22:00",
 			},
 		}),
-		[],
+		[timeline],
 	);
 
 	useEffect(() => {
@@ -83,7 +87,7 @@ export default function BookingCalenderPage() {
 
 	return (
 		<div className="flex flex-col gap-4">
-			<div>
+			<div className="flex flex-row flex-wrap justify-between">
 				<Select
 					onValueChange={(value) => {
 						setFilter(value);
@@ -100,6 +104,21 @@ export default function BookingCalenderPage() {
 						<SelectItem value="Spisning">Spisning</SelectItem>
 					</SelectContent>
 				</Select>
+				<Select
+					onValueChange={(value) => {
+						setTimeline(value as Timeline);
+					}}
+					defaultValue={"day"}
+				>
+					<SelectTrigger className="w-[160px]">
+						<SelectValue placeholder="Tidslinje" />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="day">Dag</SelectItem>
+						<SelectItem value="week">Uge</SelectItem>
+						<SelectItem value="month">Måned</SelectItem>
+					</SelectContent>
+				</Select>
 			</div>
 			<div>
 				<Eventcalendar
@@ -111,8 +130,6 @@ export default function BookingCalenderPage() {
 					view={myView}
 					data={bookings as MbscCalendarEvent[]}
 					resources={activities}
-
-					
 				/>
 			</div>
 		</div>

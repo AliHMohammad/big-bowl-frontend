@@ -14,4 +14,8 @@ async function updateBookingParticipants(id: number, body: string[]): Promise<Ax
 	return axios.patch(`${API_URL}/bookings/${id}/participants`, body);
 }
 
-export { getAllBookings, getAllBookingsById, updateBookingParticipants };
+async function deleteBooking(id: number): Promise<AxiosResponse<IBooking, unknown>> {
+	return axios.delete(`${API_URL}/bookings/${id}`);
+}
+
+export { getAllBookings, getAllBookingsById, updateBookingParticipants, deleteBooking };

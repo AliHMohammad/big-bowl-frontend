@@ -7,7 +7,7 @@ import { z } from "zod";
 import { toast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
 import { IBooking } from "@/models/IBooking";
-import { updateBookingParticipants } from "@/services/bookingApi";
+import { deleteBooking, updateBookingParticipants } from "@/services/bookingApi";
 
 const formSchema = z.object({
 	name1: z.string().min(0).max(50),
@@ -59,6 +59,26 @@ export default function UserEditBookingForm({ booking }: Props) {
 				toast({
 					title: "Åh nej! Noget gik galt!",
 					description: `Kunne ikke opdatere din booking i systemet. Prøv igen på et senere tidspunkt.`,
+					variant: "destructive",
+				});
+			});
+	};
+
+	const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+
+		deleteBooking(booking.id)
+			.then(() => {
+				toast({
+					title: "Reservation slettet",
+					description: `Din reservation med ID nr. ${booking.id} er blevet slettet i vores system. Håber vi ses igen!`,
+				});
+				navigate("/reservations");
+			})
+			.catch(() => {
+				toast({
+					title: "Åh nej! Noget gik galt!",
+					description: `Kunne ikke slette din booking i systemet. Tag kontakt til os eller prøv igen på et senere tidspunkt.`,
 					variant: "destructive",
 				});
 			});
@@ -117,7 +137,12 @@ export default function UserEditBookingForm({ booking }: Props) {
 					)}
 				/>
 
-				<div className="flex justify-center"><Button type="submit">Opdater</Button></div>
+				<div className="flex justify-center gap-3">
+					<Button type="submit">Opdater</Button>
+					<Button variant={"destructive"} onClick={handleDelete}>
+						Slet
+					</Button>
+				</div>
 			</form>
 		</Form>
 	);

@@ -10,6 +10,7 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import CreateBookingStep1 from "@/components/forms/createBookingForm/CreateBookingStep1";
 
 const IProductBookingRequestSchema = z.object({
 	id: z.number(),
@@ -41,14 +42,16 @@ type IProductBookingRequest = {
 
 const timeBlocks = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"];
 
-const fromDate = new Date()
-
 export default function UserCreateBookingPage() {
 	const [date, setDate] = useState<Date>();
 	const [step, setStep] = useState(1);
-    console.log(step);
-    console.log(date);
-    
+	const [activityType, setActivityType] = useState("");
+	const [hours, setHours] = useState<number | null>(null);
+
+	console.log(step);
+	console.log(date);
+	console.log(activityType);
+	console.log(hours);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -60,59 +63,37 @@ export default function UserCreateBookingPage() {
 
 	return (
 		<>
-			<h2 className="flex justify-center text-4xl text-white font-semibold">Opret Booking</h2>
+			<h2 className="flex justify-center text-4xl text-white font-semibold mb-10">Opret Booking</h2>
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-fit">
-					<div className="flex justify-center flex-col gap-3">
-						<Select>
-							<SelectTrigger>
-								<SelectValue placeholder="Vælg aktivitet" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="Bowling Standard">Bowling Normal</SelectItem>
-								<SelectItem value="Bowling Junior">Bowling Junior</SelectItem>
-								<SelectItem value="Air Hockey">Air Hockey</SelectItem>
-								<SelectItem value="Spisning">Spisning</SelectItem>
-							</SelectContent>
-						</Select>
-
-						<Select>
-							<SelectTrigger>
-								<SelectValue placeholder="Vælg tid" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="1_hour">1 time</SelectItem>
-								<SelectItem value="2_hour">2 timer</SelectItem>
-							</SelectContent>
-						</Select>
-
-						<Calendar
-							mode="single"
-							captionLayout="dropdown-buttons"
-							fromDate={fromDate}
-							selected={date}
-							onSelect={setDate}
-							className="rounded-md border bg-white"
-							initialFocus
-							showOutsideDays
-							fixedWeeks
-						/>
+				<form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-4 flex flex-col items-center">
+					<div className="flex justify-center flex-col gap-5">
+						{step === 1 && (
+							<CreateBookingStep1
+								setActivityType={setActivityType}
+								setDate={setDate}
+								setHours={setHours}
+								date={date}
+								activityType={activityType}
+                                hours={hours}
+							/>
+						)}
 					</div>
-
 					<Button type="submit">Opret booking</Button>
 				</form>
 			</Form>
-			{step === 1 && <div>Step 1 input</div>}
+
 			{step === 2 && <div>Step 2 input</div>}
 			{step === 3 && <div>Step 3 input</div>}
 			{step === 4 && <div>Step 4 input</div>}
 
-			<Button disabled={step == 1} onClick={() => setStep((prev) => prev - 1)}>
-				Forrige
-			</Button>
-			<Button disabled={step == 4} onClick={() => setStep((prev) => prev + 1)}>
-				Næste
-			</Button>
+			<div>
+				<Button disabled={step == 1} onClick={() => setStep((prev) => prev - 1)}>
+					Forrige
+				</Button>
+				<Button disabled={step == 4} onClick={() => setStep((prev) => prev + 1)}>
+					Næste
+				</Button>
+			</div>
 		</>
 	);
 }

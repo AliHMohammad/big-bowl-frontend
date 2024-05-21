@@ -10,25 +10,27 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { formSchema } from "@/components/forms/createBookingForm/schema";
 import CreateBookingStep1 from "@/components/forms/createBookingForm/CreateBookingStep1";
+import CreateBookingStep2 from "@/components/forms/createBookingForm/CreateBookingStep2";
 
-const IProductBookingRequestSchema = z.object({
-	id: z.number(),
-	quantity: z.number(),
-});
+// const IProductBookingRequestSchema = z.object({
+// 	id: z.number(),
+// 	quantity: z.number(),
+// });
 
-const formSchema = z.object({
-	start: z.date(),
-	end: z.date(),
-	userId: z.string(),
-	activityId: z.number(),
-	participants: z.array(z.string()),
-	products: z.array(IProductBookingRequestSchema),
-});
+// const formSchema = z.object({
+// 	start: z.date(),
+// 	end: z.date(),
+// 	userId: z.string(),
+// 	activityId: z.number(),
+// 	participants: z.array(z.string()),
+// 	products: z.array(IProductBookingRequestSchema),
+// });
 
-type IBookingRequest = {
+export type IBookingRequest = {
 	start: Date;
-	end: Date;
+	duration: number;
 	userId: string;
 	activityId: number;
 	participants: string[];
@@ -40,7 +42,11 @@ type IProductBookingRequest = {
 	quantity: number;
 };
 
-const timeBlocks = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"];
+export type IBookingTimeRequest = {
+	date: Date;
+	activityType: string;
+	hours: number;
+};
 
 export default function UserCreateBookingPage() {
 	const [date, setDate] = useState<Date>();
@@ -53,11 +59,18 @@ export default function UserCreateBookingPage() {
 	console.log(activityType);
 	console.log(hours);
 
+	const stepOneNext = Boolean(date && activityType && hours !== null);
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
+		defaultValues: {
+			startTime: "",
+			activityId: 0,
+		},
 	});
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
+		console.log("SUBMIT");
 		console.log(values);
 	};
 
@@ -74,15 +87,17 @@ export default function UserCreateBookingPage() {
 								setHours={setHours}
 								date={date}
 								activityType={activityType}
-                                hours={hours}
+								hours={hours}
 							/>
 						)}
+
+						{step === 2 && <CreateBookingStep2 activityType={activityType} date={date!} hours={hours!} form={form} />}
 					</div>
+
 					<Button type="submit">Opret booking</Button>
 				</form>
 			</Form>
 
-			{step === 2 && <div>Step 2 input</div>}
 			{step === 3 && <div>Step 3 input</div>}
 			{step === 4 && <div>Step 4 input</div>}
 
@@ -90,7 +105,7 @@ export default function UserCreateBookingPage() {
 				<Button disabled={step == 1} onClick={() => setStep((prev) => prev - 1)}>
 					Forrige
 				</Button>
-				<Button disabled={step == 4} onClick={() => setStep((prev) => prev + 1)}>
+				<Button disabled={step == 4 || !stepOneNext} onClick={() => setStep((prev) => prev + 1)}>
 					Næste
 				</Button>
 			</div>

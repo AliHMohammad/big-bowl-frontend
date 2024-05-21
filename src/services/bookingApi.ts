@@ -1,6 +1,8 @@
+import { OccupiedTimesResponse } from "@/components/forms/createBookingForm/CreateBookingStep2";
 import { IBooking } from "@/models/IBooking";
 import { API_URL } from "@/settings.ts";
 import axios, { AxiosResponse } from "axios";
+import { format } from "date-fns";
 
 async function getAllBookings(): Promise<AxiosResponse<IBooking[], unknown>> {
 	return axios.get(`${API_URL}/bookings`);
@@ -18,4 +20,14 @@ async function deleteBooking(id: number): Promise<AxiosResponse<IBooking, unknow
 	return axios.delete(`${API_URL}/bookings/${id}`);
 }
 
-export { getAllBookings, getAllBookingsById, updateBookingParticipants, deleteBooking };
+async function getAvailableBookingTimes(activityId: number, date: Date): Promise<AxiosResponse<OccupiedTimesResponse[], unknown>> {
+	const formattedDate = format(date, "MM/dd/yyyy");
+	return axios.get(`${API_URL}/bookings/times`, {
+		params: {
+			activityId,
+			date: formattedDate,
+		},
+	});
+}
+
+export { getAllBookings, getAllBookingsById, updateBookingParticipants, deleteBooking, getAvailableBookingTimes };

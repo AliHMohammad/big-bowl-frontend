@@ -4,13 +4,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import React from "react";
 
 type Props = {
-    setActivityType: (value: string) => void;
-    activityType: string;
-    setHours: (value: number) => void;
+	activityType: string;
     hours: number | null;
-	setDate: (value: Date | undefined) => void;
 	date: Date | undefined;
+    setActivityType: (value: string) => void;
+    setHours: (value: number) => void;
+	setDate: (value: Date | undefined) => void;
 };
+
 
 export default function CreateBookingStep1({ setActivityType, setDate, setHours, date, activityType, hours }: Props) {
 	const fromDate = new Date();

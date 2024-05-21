@@ -13,20 +13,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { formSchema } from "@/components/forms/createBookingForm/schema";
 import CreateBookingStep1 from "@/components/forms/createBookingForm/CreateBookingStep1";
 import CreateBookingStep2 from "@/components/forms/createBookingForm/CreateBookingStep2";
-
-// const IProductBookingRequestSchema = z.object({
-// 	id: z.number(),
-// 	quantity: z.number(),
-// });
-
-// const formSchema = z.object({
-// 	start: z.date(),
-// 	end: z.date(),
-// 	userId: z.string(),
-// 	activityId: z.number(),
-// 	participants: z.array(z.string()),
-// 	products: z.array(IProductBookingRequestSchema),
-// });
+import CreateBookingStep3 from "@/components/forms/createBookingForm/CreateBookingStep3";
+import { IProduct } from "@/models/IProduct";
 
 export type IBookingRequest = {
 	start: Date;
@@ -37,10 +25,9 @@ export type IBookingRequest = {
 	products: IProductBookingRequest[];
 };
 
-type IProductBookingRequest = {
-	id: number;
+export interface IProductBookingRequest extends IProduct {
 	quantity: number;
-};
+}
 
 export type IBookingTimeRequest = {
 	date: Date;
@@ -53,6 +40,7 @@ export default function UserCreateBookingPage() {
 	const [step, setStep] = useState(1);
 	const [activityType, setActivityType] = useState("");
 	const [hours, setHours] = useState<number | null>(null);
+	const [selectedProducts, setSelectedProducts] = useState<IProductBookingRequest[]>([]);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -61,7 +49,6 @@ export default function UserCreateBookingPage() {
 			activityId: 0,
 		},
 	});
-	const { activityId, startTime } = form.getValues();
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		console.log("SUBMIT");
@@ -87,23 +74,15 @@ export default function UserCreateBookingPage() {
 						)}
 
 						{step === 2 && <CreateBookingStep2 activityType={activityType} date={date!} form={form} setStep={setStep} />}
+
+						{step === 3 && <CreateBookingStep3 setStep={setStep} setSelectedProducts={setSelectedProducts} selectedProducts={selectedProducts} />}
 					</div>
 
 					<Button type="submit">Opret booking</Button>
 				</form>
 			</Form>
 
-			{step === 3 && <div>Step 3 input</div>}
 			{step === 4 && <div>Step 4 input</div>}
-
-			{/* <div>
-				<Button disabled={step == 1} onClick={() => setStep((prev) => prev - 1)}>
-					Forrige
-				</Button>
-				<Button disabled={step == 4 || (!stepOneNext && step == 1) || (!stepTwoNext && step == 2)} onClick={() => setStep((prev) => prev + 1)}>
-					Næste
-				</Button>
-			</div> */}
 		</>
 	);
 }

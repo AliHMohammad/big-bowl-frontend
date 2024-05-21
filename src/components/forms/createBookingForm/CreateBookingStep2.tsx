@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { IActivity } from "@/models/IActivity";
 import { getAllActivitiesByType } from "@/services/activitiesApi";
 import { UseFormReturn } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { FormField } from "@/components/ui/form";
 import { formSchema } from "@/components/forms/createBookingForm/schema";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";

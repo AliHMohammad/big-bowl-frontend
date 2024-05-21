@@ -20,7 +20,7 @@ async function deleteBooking(id: number): Promise<AxiosResponse<IBooking, unknow
 	return axios.delete(`${API_URL}/bookings/${id}`);
 }
 
-async function getAvailableBookingTimes(activityId: number, date: Date): Promise<AxiosResponse<OccupiedTimesResponse[], unknown>> {
+async function getOccupiedBookingTimes(activityId: number, date: Date): Promise<AxiosResponse<OccupiedTimesResponse[], unknown>> {
 	const formattedDate = format(date, "MM/dd/yyyy");
 	return axios.get(`${API_URL}/bookings/times`, {
 		params: {
@@ -30,4 +30,4 @@ async function getAvailableBookingTimes(activityId: number, date: Date): Promise
 	});
 }
 
-export { getAllBookings, getAllBookingsById, updateBookingParticipants, deleteBooking, getAvailableBookingTimes };
+export { getAllBookings, getAllBookingsById, updateBookingParticipants, deleteBooking, getOccupiedBookingTimes };

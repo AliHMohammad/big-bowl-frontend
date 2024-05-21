@@ -1,4 +1,4 @@
-import { getAvailableBookingTimes } from "@/services/bookingApi";
+import { getOccupiedBookingTimes } from "@/services/bookingApi";
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { IActivity } from "@/models/IActivity";
@@ -7,12 +7,13 @@ import { UseFormReturn } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { formSchema } from "@/components/forms/createBookingForm/schema";
 import { z } from "zod";
+import { Button } from "@/components/ui/button";
 
 type Props = {
 	activityType: string;
-	hours: number;
 	date: Date;
 	form: UseFormReturn<z.infer<typeof formSchema>>;
+	setStep: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export type OccupiedTimesResponse = {
@@ -21,10 +22,13 @@ export type OccupiedTimesResponse = {
 };
 const TIMEBLOCK = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"];
 
-export default function CreateBookingStep2({ activityType, date, hours, form }: Props) {
+export default function CreateBookingStep2({ activityType, date, form, setStep }: Props) {
 	const [timeblock, setTimeblock] = useState<string[]>([]);
 	const [activities, setActivities] = useState<IActivity[] | null>(null);
 	const [activityId, setActivityId] = useState<number | null>(null);
+	const [startTime, setStartTime] = useState("");
+
+	const stepTwoNext = Boolean(startTime && activityId);
 
 	useEffect(() => {
 		getAllActivitiesByType(activityType)
@@ -37,7 +41,7 @@ export default function CreateBookingStep2({ activityType, date, hours, form }: 
 	useEffect(() => {
 		if (!activityId) return;
 
-		getAvailableBookingTimes(activityId, date)
+		getOccupiedBookingTimes(activityId, date)
 			.then((r) => {
 				const newTimeblock = [...TIMEBLOCK];
 				for (const item of r.data) {
@@ -45,12 +49,13 @@ export default function CreateBookingStep2({ activityType, date, hours, form }: 
 					const index = newTimeblock.findIndex((i) => i == item.startTime);
 					newTimeblock.splice(index, item.duration);
 				}
+				form.resetField("startTime");
 				setTimeblock(newTimeblock);
 			})
 			.catch(() => {
 				console.log("fetch error");
 			});
-	}, [activityId, date, hours]);
+	}, [activityId, date, form]);
 
 	return (
 		<>
@@ -80,33 +85,42 @@ export default function CreateBookingStep2({ activityType, date, hours, form }: 
 					</Select>
 				)}
 			/>
-			{activityId && (
-				<FormField
-					control={form.control}
-					name="startTime"
-					render={({ field }) => (
-						<Select
-							onValueChange={(v) => {
-								field.onChange(v);
-							}}
-							defaultValue={field.value}
-						>
-							<SelectTrigger>
-								<SelectValue placeholder="Vælg start tid" />
-							</SelectTrigger>
-							<SelectContent>
-								{timeblock.map((time) => {
-									return (
-										<SelectItem key={time} value={time}>
-											{time}
-										</SelectItem>
-									);
-								})}
-							</SelectContent>
-						</Select>
-					)}
-				/>
-			)}
+
+			<FormField
+				control={form.control}
+				name="startTime"
+				render={({ field }) => (
+					<Select
+						value={field.value}
+						onValueChange={(v) => {
+							field.onChange(v);
+							setStartTime(v);
+						}}
+						defaultValue={field.value}
+						disabled={!activityId}
+					>
+						<SelectTrigger>
+							<SelectValue placeholder="Vælg start tid" />
+						</SelectTrigger>
+						<SelectContent>
+							{timeblock.map((time) => {
+								return (
+									<SelectItem key={time} value={time}>
+										{time}
+									</SelectItem>
+								);
+							})}
+						</SelectContent>
+					</Select>
+				)}
+			/>
+
+			<div className="flex justify-between">
+				<Button onClick={() => setStep((prev) => prev - 1)}>Forrige</Button>
+				<Button disabled={!stepTwoNext} onClick={() => setStep((prev) => prev + 1)}>
+					Næste
+				</Button>
+			</div>
 		</>
 	);
 }

@@ -54,13 +54,6 @@ export default function UserCreateBookingPage() {
 	const [activityType, setActivityType] = useState("");
 	const [hours, setHours] = useState<number | null>(null);
 
-	console.log(step);
-	console.log(date);
-	console.log(activityType);
-	console.log(hours);
-
-	const stepOneNext = Boolean(date && activityType && hours !== null);
-
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -68,6 +61,7 @@ export default function UserCreateBookingPage() {
 			activityId: 0,
 		},
 	});
+	const { activityId, startTime } = form.getValues();
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		console.log("SUBMIT");
@@ -88,10 +82,11 @@ export default function UserCreateBookingPage() {
 								date={date}
 								activityType={activityType}
 								hours={hours}
+								setStep={setStep}
 							/>
 						)}
 
-						{step === 2 && <CreateBookingStep2 activityType={activityType} date={date!} hours={hours!} form={form} />}
+						{step === 2 && <CreateBookingStep2 activityType={activityType} date={date!} form={form} setStep={setStep} />}
 					</div>
 
 					<Button type="submit">Opret booking</Button>
@@ -101,14 +96,14 @@ export default function UserCreateBookingPage() {
 			{step === 3 && <div>Step 3 input</div>}
 			{step === 4 && <div>Step 4 input</div>}
 
-			<div>
+			{/* <div>
 				<Button disabled={step == 1} onClick={() => setStep((prev) => prev - 1)}>
 					Forrige
 				</Button>
-				<Button disabled={step == 4 || !stepOneNext} onClick={() => setStep((prev) => prev + 1)}>
+				<Button disabled={step == 4 || (!stepOneNext && step == 1) || (!stepTwoNext && step == 2)} onClick={() => setStep((prev) => prev + 1)}>
 					Næste
 				</Button>
-			</div>
+			</div> */}
 		</>
 	);
 }

@@ -30,8 +30,6 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 	const [hour, minute] = startTime.split(":").map(Number);
 	date.setHours(hour, minute);
 	const formattedDate = format(date, 'dd MMMM, yyyy, p',{ locale: da } );
-	console.log(date);
-
 
 	return (
 		<>
@@ -46,7 +44,7 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 				<div className={"my-3 flex flex-row justify-evenly gap-1"}>
 					<Popover>
 						<PopoverTrigger>
-							<Button size="icon">
+							<Button type={"button"} size="icon">
 								<GoPerson />
 							</Button>
 						</PopoverTrigger>
@@ -62,7 +60,7 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 					</Popover>
 					<Popover>
 						<PopoverTrigger>
-							<Button size="icon">
+							<Button type={"button"} size="icon">
 								<FaShoppingCart />
 							</Button>
 						</PopoverTrigger>
@@ -81,7 +79,7 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 			</div>
 
 			<div className="flex justify-between">
-				<Button onClick={() => setStep((prev) => prev - 1)}>Forrige</Button>
+				<Button type={"button"} onClick={() => setStep((prev) => prev - 1)}>Forrige</Button>
 				<Button type="submit">Opret booking</Button>
 			</div>
 		</>

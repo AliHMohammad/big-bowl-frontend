@@ -3,6 +3,7 @@ import { IBooking } from "@/models/IBooking";
 import { API_URL } from "@/settings.ts";
 import axios, { AxiosResponse } from "axios";
 import { format } from "date-fns";
+import { IBookingRequest } from "@/pages/UserCreateBookingPage.tsx";
 
 async function getAllBookings(): Promise<AxiosResponse<IBooking[], unknown>> {
 	return axios.get(`${API_URL}/bookings`);
@@ -30,4 +31,8 @@ async function getOccupiedBookingTimes(activityId: number, date: Date): Promise<
 	});
 }
 
-export { getAllBookings, getAllBookingsById, updateBookingParticipants, deleteBooking, getOccupiedBookingTimes };
+async function createBooking(body: IBookingRequest): Promise<AxiosResponse<IBooking, unknown>> {
+	return axios.post(`${API_URL}/bookings`, body)
+}
+
+export { getAllBookings, getAllBookingsById, updateBookingParticipants, deleteBooking, getOccupiedBookingTimes, createBooking };

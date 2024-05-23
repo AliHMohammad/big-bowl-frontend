@@ -65,9 +65,7 @@ export default function UserEditBookingForm({ booking }: Props) {
 			});
 	};
 
-	const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-
+	const handleDelete = () => {
 		deleteBooking(booking.id)
 			.then(() => {
 				toast({
@@ -140,7 +138,7 @@ export default function UserEditBookingForm({ booking }: Props) {
 
 				<div className="flex justify-center gap-3">
 					<Button type="submit">Opdater</Button>
-					<Button variant={"destructive"} onClick={handleDelete}>
+					<Button type={"button"} variant={"destructive"} onClick={handleDelete}>
 						Slet
 					</Button>
 				</div>

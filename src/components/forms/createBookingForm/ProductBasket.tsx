@@ -8,7 +8,6 @@ type Props = {
 };
 
 export default function ProductBasket({ selectedProducts, setSelectedProducts }: Props) {
-
 	const TOTAL_PRICE = selectedProducts.reduce((acc, product) => acc + product.price * product.quantity, 0);
 
 	const handleClick = (action: "+" | "-", p: IProductQuantity) => {
@@ -17,21 +16,28 @@ export default function ProductBasket({ selectedProducts, setSelectedProducts }:
 		if (action == "+") {
 			setSelectedProducts(() => [...filtered, { ...p, quantity: p.quantity + 1 }].sort((a, b) => a.id - b.id));
 		} else if (action == "-") {
-			p.quantity == 1 ? setSelectedProducts(() => [...filtered]) : setSelectedProducts(() => [...filtered, { ...p, quantity: p.quantity - 1 }].sort((a, b) => a.id - b.id));
+			p.quantity == 1
+				? setSelectedProducts(() => [...filtered])
+				: setSelectedProducts(() => [...filtered, { ...p, quantity: p.quantity - 1 }].sort((a, b) => a.id - b.id));
 		}
-
-	}
+	};
 
 	return (
 		<section className="w-72 h-fit bg-red-300 p-3">
 			{selectedProducts.map((p) => {
 				return (
 					<div key={p.id} className={"flex justify-between items-center px-2"}>
-						<p>{p.name} - {p.price * p.quantity}kr.</p>
+						<p>
+							{p.name} - {p.price * p.quantity}kr.
+						</p>
 						<div className={"flex gap-1 items-center"}>
-							<Button variant="outline" size="icon" onClick={() => handleClick("-", p)}>-</Button>
+							<Button type={"button"} variant="outline" size="icon" onClick={() => handleClick("-", p)}>
+								-
+							</Button>
 							{p.quantity}
-							<Button variant="outline" size="icon" onClick={() => handleClick("+", p)}>+</Button>
+							<Button type={"button"} variant="outline" size="icon" onClick={() => handleClick("+", p)}>
+								+
+							</Button>
 						</div>
 					</div>
 				);

@@ -12,6 +12,9 @@ import { IProduct } from "@/models/IProduct";
 import { useUser } from "@clerk/clerk-react";
 import CreateBookingStep4 from "@/components/forms/createBookingForm/CreateBookingStep4.tsx";
 import { IActivity } from "@/models/IActivity.ts";
+import { createBooking } from "@/services/bookingApi.ts";
+import { toast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export type IBookingRequest = {
 	start: Date;
@@ -38,6 +41,7 @@ type IProductRequest = {
 };*/
 
 export default function UserCreateBookingPage() {
+	const navigate = useNavigate();
 	const [date, setDate] = useState<Date>();
 	const [step, setStep] = useState(1);
 	const [activityType, setActivityType] = useState("");
@@ -82,6 +86,22 @@ export default function UserCreateBookingPage() {
 		}
 
 		console.log(request);
+		createBooking(request)
+			.then(({data}) => {
+				toast({
+					title: "Reservation oprettet!",
+					description: `Din reservation er oprettet med reservations ID: ${data.id}`,
+					variant: "destructive",
+				});
+				navigate("/reservations")
+			})
+			.catch(() => {
+				toast({
+					title: "Åh nej! Noget gik galt!",
+					description: `Kunne ikke oprette din reservation i vores system. Prøv igen på et senere tidspunkt.`,
+					variant: "destructive",
+				});
+			})
 	};
 
 	return (

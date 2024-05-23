@@ -38,12 +38,7 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 								<img src={p.image} alt={p.name} className="h-36" />
 							</div>
 
-							<Button
-								onClick={(e) => {
-									e.preventDefault();
-									handleProductOnClick(p);
-								}}
-							>
+							<Button type={"button"} onClick={() => handleProductOnClick(p)}>
 								Tilføj
 							</Button>
 						</div>
@@ -52,6 +47,7 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 			</section>
 			<div className="flex justify-evenly">
 				<Button
+					type={"button"}
 					variant={"outline"}
 					onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))}
 					disabled={products?.first}
@@ -65,6 +61,7 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 					</p>
 				) : null}
 				<Button
+					type={"button"}
 					variant={"outline"}
 					onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))}
 					disabled={products?.last}

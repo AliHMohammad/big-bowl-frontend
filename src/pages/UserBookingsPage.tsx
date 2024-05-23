@@ -25,8 +25,6 @@ export default function UserBookingsPage() {
 				});
 			});
 	}, [userId]);
-
-	console.log(bookings);
 	
 
 	return (

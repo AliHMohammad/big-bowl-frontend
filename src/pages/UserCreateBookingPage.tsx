@@ -10,6 +10,8 @@ import CreateBookingStep2 from "@/components/forms/createBookingForm/CreateBooki
 import CreateBookingStep3 from "@/components/forms/createBookingForm/CreateBookingStep3";
 import { IProduct } from "@/models/IProduct";
 import { useUser } from "@clerk/clerk-react";
+import CreateBookingStep4 from "@/components/forms/createBookingForm/CreateBookingStep4.tsx";
+import { IActivity } from "@/models/IActivity.ts";
 
 export type IBookingRequest = {
 	start: Date;
@@ -17,28 +19,33 @@ export type IBookingRequest = {
 	userId: string;
 	activityId: number;
 	participants: string[];
-	products: IProductBookingRequest[];
+	products: IProductRequest[];
 };
 
-export interface IProductBookingRequest extends IProduct {
+export interface IProductQuantity extends IProduct {
 	quantity: number;
 }
 
-export type IBookingTimeRequest = {
+type IProductRequest = {
+	id: number,
+	quantity: number
+}
+
+/*export type IBookingTimeRequest = {
 	date: Date;
 	activityType: string;
 	hours: number;
-};
+};*/
 
 export default function UserCreateBookingPage() {
 	const [date, setDate] = useState<Date>();
 	const [step, setStep] = useState(1);
 	const [activityType, setActivityType] = useState("");
 	const [hours, setHours] = useState<number | null>(null);
-	const [selectedProducts, setSelectedProducts] = useState<IProductBookingRequest[]>([]);
-	const [activityId, setActivityId] = useState<number | null>(null);
+	const [selectedProducts, setSelectedProducts] = useState<IProductQuantity[]>([]);
+	const [activity, setActivity] = useState<IActivity | null>(null);
 
-	const {user} = useUser();
+	const { user } = useUser();
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -54,8 +61,27 @@ export default function UserCreateBookingPage() {
 
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
-		console.log("SUBMIT");
-		console.log(values);
+		const productRequests = selectedProducts.map((p) => {
+			return {
+				id: p.id,
+				quantity: p.quantity
+			} as IProductRequest
+		})
+
+		const {name1, name2, name3, name4} = values;
+		const arr = [name1, name2, name3, name4];
+		const participants: string[] = arr.filter((name) => name !== "");
+
+		const request: IBookingRequest = {
+			start: date!,
+			activityId: activity!.id,
+			userId: user!.id,
+			duration: hours!,
+			participants: participants,
+			products: productRequests
+		}
+
+		console.log(request);
 	};
 
 	return (
@@ -75,17 +101,13 @@ export default function UserCreateBookingPage() {
 								setStep={setStep}
 							/>
 						)}
-
-						{step === 2 && <CreateBookingStep2 activityType={activityType} date={date!} form={form} setStep={setStep} activityId={activityId} setActivityId={setActivityId} />}
-
+						{step === 2 && <CreateBookingStep2 activityType={activityType} date={date!} form={form} setStep={setStep} activity={activity} setActivity={setActivity} />}
 						{step === 3 && <CreateBookingStep3 setStep={setStep} setSelectedProducts={setSelectedProducts} selectedProducts={selectedProducts} />}
+						{step === 4 && <CreateBookingStep4 activity={activity!} activityType={activityType} date={date!} hours={hours!} products={selectedProducts} setStep={setStep} form={form} />}
 					</div>
-
-					<Button type="submit">Opret booking</Button>
 				</form>
 			</Form>
-
-			{step === 4 && <div>Step 4 input</div>}
 		</>
 	);
+
 }

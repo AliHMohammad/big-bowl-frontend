@@ -1,17 +1,17 @@
-import { IProductBookingRequest } from "@/pages/UserCreateBookingPage";
+import { IProductQuantity } from "@/pages/UserCreateBookingPage";
 import React from "react";
 import { Button } from "@/components/ui/button.tsx";
 
 type Props = {
-	selectedProducts: IProductBookingRequest[];
-	setSelectedProducts: React.Dispatch<React.SetStateAction<IProductBookingRequest[]>>;
+	selectedProducts: IProductQuantity[];
+	setSelectedProducts: React.Dispatch<React.SetStateAction<IProductQuantity[]>>;
 };
 
 export default function ProductBasket({ selectedProducts, setSelectedProducts }: Props) {
 
 	const TOTAL_PRICE = selectedProducts.reduce((acc, product) => acc + product.price * product.quantity, 0);
 
-	const handleClick = (action: "+" | "-", p: IProductBookingRequest) => {
+	const handleClick = (action: "+" | "-", p: IProductQuantity) => {
 		const filtered = selectedProducts.filter((product) => product.id != p.id).sort((a, b) => a.id - b.id);
 
 		if (action == "+") {

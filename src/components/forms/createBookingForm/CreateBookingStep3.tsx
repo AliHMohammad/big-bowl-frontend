@@ -7,13 +7,13 @@ import { getAllProducts } from "@/services/productApi";
 import { IPagination } from "@/models/IPagination";
 import { PaginationSize } from "@/components/table/DataTable";
 import { toast } from "@/components/ui/use-toast";
-import { IProductBookingRequest } from "@/pages/UserCreateBookingPage";
+import { IProductQuantity } from "@/pages/UserCreateBookingPage";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type Props = {
 	setStep: React.Dispatch<React.SetStateAction<number>>;
-	selectedProducts: IProductBookingRequest[];
-	setSelectedProducts: React.Dispatch<React.SetStateAction<IProductBookingRequest[]>>;
+	selectedProducts: IProductQuantity[];
+	setSelectedProducts: React.Dispatch<React.SetStateAction<IProductQuantity[]>>;
 };
 
 export default function CreateBookingStep3({ setStep, selectedProducts, setSelectedProducts }: Props) {

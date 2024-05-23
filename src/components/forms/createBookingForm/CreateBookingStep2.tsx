@@ -1,5 +1,5 @@
 import { getOccupiedBookingTimes } from "@/services/bookingApi";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { IActivity } from "@/models/IActivity";
 import { getAllActivitiesByType } from "@/services/activitiesApi";
@@ -15,8 +15,8 @@ type Props = {
 	date: Date;
 	form: UseFormReturn<z.infer<typeof formSchema>>;
 	setStep: React.Dispatch<React.SetStateAction<number>>;
-	activityId: number | null,
-	setActivityId: React.Dispatch<React.SetStateAction<number | null>>;
+	activity: IActivity | null,
+	setActivity: React.Dispatch<React.SetStateAction<IActivity | null>>
 };
 
 export type OccupiedTimesResponse = {
@@ -25,13 +25,11 @@ export type OccupiedTimesResponse = {
 };
 const TIMEBLOCK = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"];
 
-export default function CreateBookingStep2({ activityType, date, form, setStep, setActivityId, activityId }: Props) {
+export default function CreateBookingStep2({ activityType, date, form, setStep, setActivity, activity }: Props) {
 	const [timeblock, setTimeblock] = useState<string[]>([]);
 	const [activities, setActivities] = useState<IActivity[] | null>(null);
-
 	const [startTime, setStartTime] = useState("");
-
-	const stepTwoNext = Boolean(startTime && activityId);
+	const stepTwoNext = Boolean(startTime && activity);
 
 	useEffect(() => {
 		getAllActivitiesByType(activityType)
@@ -42,9 +40,9 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 	}, [activityType]);
 
 	useEffect(() => {
-		if (!activityId) return;
+		if (!activity) return;
 		console.log("FETCH");
-		getOccupiedBookingTimes(activityId, date)
+		getOccupiedBookingTimes(activity.id, date)
 			.then((r) => {
 				const newTimeblock = [...TIMEBLOCK];
 				for (const item of r.data) {
@@ -58,9 +56,9 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 			.catch(() => {
 				console.log("fetch error");
 			});
-	}, [activityId, date, form]);
+	}, [activity, date, form]);
 
-	console.log(activityId);
+	console.log(activity?.id);
 
 	return (
 		<>
@@ -74,7 +72,8 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 						<Select
 							onValueChange={(v) => {
 								field.onChange(Number(v));
-								setActivityId(Number(v));
+								const foundActivity = activities?.find((p) => p.id == Number(v));
+								setActivity(foundActivity!);
 							}}
 							/*defaultValue={String(field.value)}*/
 							defaultValue={"Hello world"}
@@ -107,7 +106,7 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 							setStartTime(v);
 						}}
 						defaultValue={field.value}
-						disabled={!activityId}
+						disabled={!activity}
 					>
 						<SelectTrigger>
 							<SelectValue placeholder="Vælg start tid" />

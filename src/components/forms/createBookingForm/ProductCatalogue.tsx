@@ -2,14 +2,14 @@ import { PaginationSize } from "@/components/table/DataTable";
 import { Button } from "@/components/ui/button";
 import { IPagination } from "@/models/IPagination";
 import { IProduct } from "@/models/IProduct";
-import { IProductBookingRequest } from "@/pages/UserCreateBookingPage";
+import { IProductQuantity } from "@/pages/UserCreateBookingPage";
 
 type Props = {
 	products: IPagination<IProduct>;
 	pagination: PaginationSize;
-	selectedProducts: IProductBookingRequest[];
+	selectedProducts: IProductQuantity[];
 	setPagination: React.Dispatch<React.SetStateAction<PaginationSize>>;
-	setSelectedProducts: React.Dispatch<React.SetStateAction<IProductBookingRequest[]>>;
+	setSelectedProducts: React.Dispatch<React.SetStateAction<IProductQuantity[]>>;
 };
 
 export default function ProductCatalogue({ products, pagination, setPagination, selectedProducts, setSelectedProducts }: Props) {

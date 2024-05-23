@@ -12,4 +12,8 @@ export const formSchema = z.object({
 	// userId: z.string(),
 	// participants: z.array(z.string()),
 	// products: z.array(IProductBookingRequestSchema),
+	name1: z.string().min(0).max(50),
+	name2: z.string().min(0).max(50),
+	name3: z.string().min(0).max(50),
+	name4: z.string().min(0).max(50),
 });

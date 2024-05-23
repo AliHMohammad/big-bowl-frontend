@@ -3,18 +3,13 @@ import { Button } from "@mobiscroll/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Form } from "@/components/ui/form";
 import { formSchema } from "@/components/forms/createBookingForm/schema";
 import CreateBookingStep1 from "@/components/forms/createBookingForm/CreateBookingStep1";
 import CreateBookingStep2 from "@/components/forms/createBookingForm/CreateBookingStep2";
 import CreateBookingStep3 from "@/components/forms/createBookingForm/CreateBookingStep3";
 import { IProduct } from "@/models/IProduct";
+import { useUser } from "@clerk/clerk-react";
 
 export type IBookingRequest = {
 	start: Date;
@@ -41,14 +36,22 @@ export default function UserCreateBookingPage() {
 	const [activityType, setActivityType] = useState("");
 	const [hours, setHours] = useState<number | null>(null);
 	const [selectedProducts, setSelectedProducts] = useState<IProductBookingRequest[]>([]);
+	const [activityId, setActivityId] = useState<number | null>(null);
+
+	const {user} = useUser();
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			startTime: "",
 			activityId: 0,
+			name1: user?.firstName || "John Doe",
+			name2: "",
+			name3: "",
+			name4: "",
 		},
 	});
+
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		console.log("SUBMIT");
@@ -73,7 +76,7 @@ export default function UserCreateBookingPage() {
 							/>
 						)}
 
-						{step === 2 && <CreateBookingStep2 activityType={activityType} date={date!} form={form} setStep={setStep} />}
+						{step === 2 && <CreateBookingStep2 activityType={activityType} date={date!} form={form} setStep={setStep} activityId={activityId} setActivityId={setActivityId} />}
 
 						{step === 3 && <CreateBookingStep3 setStep={setStep} setSelectedProducts={setSelectedProducts} selectedProducts={selectedProducts} />}
 					</div>

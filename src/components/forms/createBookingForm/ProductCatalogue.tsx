@@ -21,21 +21,23 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 
 		if (productInBasket) {
 			const filtered = selectedProducts.filter((product) => product.id != productInBasket.id);
-
-			setSelectedProducts(() => [...filtered, { ...productInBasket, quantity: productInBasket.quantity + 1 }]);
-            
+			setSelectedProducts(() => [...filtered, { ...productInBasket, quantity: productInBasket.quantity + 1 }].sort((a, b) => a.id - b.id));
 		} else {
-			setSelectedProducts((prev) => [...prev, { ...p, quantity: 1 }]);
+			setSelectedProducts((prev) => [...prev, { ...p, quantity: 1 }].sort((a, b) => a.id - b.id));
 		}
 	};
 
 	return (
 		<div>
-			<section className="w-[34rem] h-[30rem] bg-green-300 grid grid-cols-3 grid-rows-2 gap-2 p-3">
+			<section className="w-[34rem] h-[30rem] grid grid-cols-3 grid-rows-2 gap-4">
 				{products.content.map((p) => {
 					return (
-						<div className="bg-orange-300">
-							<p>{p.name}</p>
+						<div className="bg-orange-300 flex flex-col justify-center rounded-md overflow-hidden" key={p.id}>
+							<p className="font-semibold text-center">{p.name}</p>
+							<div className="flex justify-center my-auto">
+								<img src={p.image} alt={p.name} className="h-36" />
+							</div>
+
 							<Button
 								onClick={(e) => {
 									e.preventDefault();

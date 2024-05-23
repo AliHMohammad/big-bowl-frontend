@@ -4,16 +4,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { IActivity } from "@/models/IActivity";
 import { getAllActivitiesByType } from "@/services/activitiesApi";
 import { UseFormReturn } from "react-hook-form";
-import { FormField } from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { formSchema } from "@/components/forms/createBookingForm/schema";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input.tsx";
 
 type Props = {
 	activityType: string;
 	date: Date;
 	form: UseFormReturn<z.infer<typeof formSchema>>;
 	setStep: React.Dispatch<React.SetStateAction<number>>;
+	activityId: number | null,
+	setActivityId: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
 export type OccupiedTimesResponse = {
@@ -22,10 +25,10 @@ export type OccupiedTimesResponse = {
 };
 const TIMEBLOCK = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"];
 
-export default function CreateBookingStep2({ activityType, date, form, setStep }: Props) {
+export default function CreateBookingStep2({ activityType, date, form, setStep, setActivityId, activityId }: Props) {
 	const [timeblock, setTimeblock] = useState<string[]>([]);
 	const [activities, setActivities] = useState<IActivity[] | null>(null);
-	const [activityId, setActivityId] = useState<number | null>(null);
+
 	const [startTime, setStartTime] = useState("");
 
 	const stepTwoNext = Boolean(startTime && activityId);
@@ -40,7 +43,7 @@ export default function CreateBookingStep2({ activityType, date, form, setStep }
 
 	useEffect(() => {
 		if (!activityId) return;
-
+		console.log("FETCH");
 		getOccupiedBookingTimes(activityId, date)
 			.then((r) => {
 				const newTimeblock = [...TIMEBLOCK];
@@ -57,32 +60,39 @@ export default function CreateBookingStep2({ activityType, date, form, setStep }
 			});
 	}, [activityId, date, form]);
 
+	console.log(activityId);
+
 	return (
 		<>
 			<FormField
+
 				control={form.control}
 				name="activityId"
 				render={({ field }) => (
-					<Select
-						onValueChange={(v) => {
-							field.onChange(Number(v));
-							setActivityId(Number(v));
-						}}
-						defaultValue={String(field.value)}
-					>
-						<SelectTrigger>
-							<SelectValue placeholder="Vælg aktivitet" />
-						</SelectTrigger>
-						<SelectContent>
-							{activities?.map((activity) => {
-								return (
-									<SelectItem key={activity.id} value={String(activity.id)}>
-										{activity.name}
-									</SelectItem>
-								);
-							})}
-						</SelectContent>
-					</Select>
+					<>
+						<FormLabel className="text-white">Sted</FormLabel>
+						<Select
+							onValueChange={(v) => {
+								field.onChange(Number(v));
+								setActivityId(Number(v));
+							}}
+							/*defaultValue={String(field.value)}*/
+							defaultValue={"Hello world"}
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Vælg aktivitet" />
+							</SelectTrigger>
+							<SelectContent>
+								{activities?.map((activity) => {
+									return (
+										<SelectItem key={activity.id} value={String(activity.id)}>
+											{activity.name}
+										</SelectItem>
+									);
+								})}
+							</SelectContent>
+						</Select>
+					</>
 				)}
 			/>
 
@@ -112,6 +122,56 @@ export default function CreateBookingStep2({ activityType, date, form, setStep }
 							})}
 						</SelectContent>
 					</Select>
+				)}
+			/>
+
+			<FormField
+				control={form.control}
+				name="name1"
+				render={({ field }) => (
+					<FormItem>
+						<FormLabel className="text-white">Deltagere</FormLabel>
+						<FormControl>
+							<Input placeholder="Deltager 1" disabled={true} required {...field} />
+						</FormControl>
+						<FormMessage />
+					</FormItem>
+				)}
+			/>
+			<FormField
+				control={form.control}
+				name="name2"
+				render={({ field }) => (
+					<FormItem>
+						<FormControl>
+							<Input placeholder="Deltager 2" {...field} />
+						</FormControl>
+						<FormMessage />
+					</FormItem>
+				)}
+			/>
+			<FormField
+				control={form.control}
+				name="name3"
+				render={({ field }) => (
+					<FormItem>
+						<FormControl>
+							<Input placeholder="Deltager 3" {...field} />
+						</FormControl>
+						<FormMessage />
+					</FormItem>
+				)}
+			/>
+			<FormField
+				control={form.control}
+				name="name4"
+				render={({ field }) => (
+					<FormItem>
+						<FormControl>
+							<Input placeholder="Deltager 4" {...field} />
+						</FormControl>
+						<FormMessage />
+					</FormItem>
 				)}
 			/>
 

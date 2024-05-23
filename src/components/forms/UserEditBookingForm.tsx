@@ -32,6 +32,7 @@ type Props = {
 export default function UserEditBookingForm({ booking }: Props) {
 	const navigate = useNavigate();
 
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -94,7 +95,7 @@ export default function UserEditBookingForm({ booking }: Props) {
 						<FormItem>
 							<FormLabel className="text-white">Deltagere</FormLabel>
 							<FormControl>
-								<Input placeholder="Deltager 1" required {...field} />
+								<Input placeholder="Deltager 1" disabled={true} required {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>

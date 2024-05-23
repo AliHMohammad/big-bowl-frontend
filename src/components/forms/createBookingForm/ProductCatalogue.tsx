@@ -13,6 +13,9 @@ type Props = {
 };
 
 export default function ProductCatalogue({ products, pagination, setPagination, selectedProducts, setSelectedProducts }: Props) {
+	
+
+
 	const handleProductOnClick = (p: IProduct) => {
 		//TODO: Nok i stock?
 		console.log(p);
@@ -30,20 +33,18 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 	return (
 		<div>
 			<section className="w-[34rem] h-[30rem] grid grid-cols-3 grid-rows-2 gap-4">
-				{products.content.map((p) => {
-					return (
-						<div className="bg-orange-300 flex flex-col justify-center rounded-md overflow-hidden" key={p.id}>
-							<p className="font-semibold text-center">{p.name}</p>
-							<div className="flex justify-center my-auto">
-								<img src={p.image} alt={p.name} className="h-36" />
-							</div>
-
-							<Button type={"button"} onClick={() => handleProductOnClick(p)}>
-								Tilføj
-							</Button>
+				{products.content.map((p) => (
+					<div className="bg-orange-300 flex flex-col justify-center rounded-md overflow-hidden" key={p.id}>
+						<p className="font-semibold text-center">{p.name}</p>
+						<div className="flex justify-center my-auto items-center">
+							<img src={p.image} alt={p.name} className="h-36" />
 						</div>
-					);
-				})}
+						{p.stock ? <p className="text-center">{p.stock} på lager</p> : <p className="text-black text-opacity-0">.</p>}
+						<Button disabled={selectedProducts.some((item) => item.id === p.id) || !p.stock} type="button" onClick={() => handleProductOnClick(p)}>
+							{p.stock === 0 ? "Ikke på lager" : "Tilføj"}
+						</Button>
+					</div>
+				))}
 			</section>
 			<div className="flex justify-evenly">
 				<Button

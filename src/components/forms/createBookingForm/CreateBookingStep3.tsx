@@ -24,7 +24,6 @@ export default function CreateBookingStep3({ setStep, selectedProducts, setSelec
 	});
 	const [filter, setFilter] = useState("");
 
-	console.log(selectedProducts);
 
 	useEffect(() => {
 		const queryParams = new URLSearchParams({

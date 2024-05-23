@@ -35,7 +35,7 @@ export default function ProductBasket({ selectedProducts, setSelectedProducts }:
 								-
 							</Button>
 							{p.quantity}
-							<Button type={"button"} variant="outline" size="icon" onClick={() => handleClick("+", p)}>
+							<Button disabled={p.quantity === p.stock} type={"button"} variant="outline" size="icon" onClick={() => handleClick("+", p)}>
 								+
 							</Button>
 						</div>

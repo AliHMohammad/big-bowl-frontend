@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@mobiscroll/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,9 +14,10 @@ import { IActivity } from "@/models/IActivity.ts";
 import { createBooking } from "@/services/bookingApi.ts";
 import { toast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import { formatISO } from "date-fns";
 
 export type IBookingRequest = {
-	start: Date;
+	start: string;
 	duration: number;
 	userId: string;
 	activityId: number;
@@ -30,9 +30,9 @@ export interface IProductQuantity extends IProduct {
 }
 
 type IProductRequest = {
-	id: number,
-	quantity: number
-}
+	id: number;
+	quantity: number;
+};
 
 /*export type IBookingTimeRequest = {
 	date: Date;
@@ -63,37 +63,37 @@ export default function UserCreateBookingPage() {
 		},
 	});
 
-
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		const productRequests = selectedProducts.map((p) => {
 			return {
 				id: p.id,
-				quantity: p.quantity
-			} as IProductRequest
-		})
+				quantity: p.quantity,
+			} as IProductRequest;
+		});
 
-		const {name1, name2, name3, name4} = values;
+		const { name1, name2, name3, name4 } = values;
 		const arr = [name1, name2, name3, name4];
 		const participants: string[] = arr.filter((name) => name !== "");
 
+		console.log(date!.toISOString());
+
 		const request: IBookingRequest = {
-			start: date!,
+			start: date!.toISOString(),
 			activityId: activity!.id,
 			userId: user!.id,
 			duration: hours!,
 			participants: participants,
-			products: productRequests
-		}
+			products: productRequests,
+		};
 
 		console.log(request);
 		createBooking(request)
-			.then(({data}) => {
+			.then(({ data }) => {
 				toast({
 					title: "Reservation oprettet!",
 					description: `Din reservation er oprettet med reservations ID: ${data.id}`,
-					variant: "destructive",
 				});
-				navigate("/reservations")
+				// navigate("/reservations");
 			})
 			.catch(() => {
 				toast({
@@ -101,7 +101,7 @@ export default function UserCreateBookingPage() {
 					description: `Kunne ikke oprette din reservation i vores system. Prøv igen på et senere tidspunkt.`,
 					variant: "destructive",
 				});
-			})
+			});
 	};
 
 	return (
@@ -121,13 +121,31 @@ export default function UserCreateBookingPage() {
 								setStep={setStep}
 							/>
 						)}
-						{step === 2 && <CreateBookingStep2 activityType={activityType} date={date!} form={form} setStep={setStep} activity={activity} setActivity={setActivity} />}
+						{step === 2 && (
+							<CreateBookingStep2
+								activityType={activityType}
+								date={date!}
+								form={form}
+								setStep={setStep}
+								activity={activity}
+								setActivity={setActivity}
+							/>
+						)}
 						{step === 3 && <CreateBookingStep3 setStep={setStep} setSelectedProducts={setSelectedProducts} selectedProducts={selectedProducts} />}
-						{step === 4 && <CreateBookingStep4 activity={activity!} activityType={activityType} date={date!} hours={hours!} products={selectedProducts} setStep={setStep} form={form} />}
+						{step === 4 && (
+							<CreateBookingStep4
+								activity={activity!}
+								activityType={activityType}
+								date={date!}
+								hours={hours!}
+								products={selectedProducts}
+								setStep={setStep}
+								form={form}
+							/>
+						)}
 					</div>
 				</form>
 			</Form>
 		</>
 	);
-
 }

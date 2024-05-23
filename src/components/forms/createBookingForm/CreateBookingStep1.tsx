@@ -12,7 +12,6 @@ type Props = {
 	setHours: (value: number) => void;
 	setDate: (value: Date | undefined) => void;
 	setStep: React.Dispatch<React.SetStateAction<number>>;
-
 };
 
 export default function CreateBookingStep1({ setActivityType, setDate, setHours, date, activityType, hours, setStep }: Props) {
@@ -27,10 +26,10 @@ export default function CreateBookingStep1({ setActivityType, setDate, setHours,
 					<SelectValue placeholder="Vælg aktivitet" />
 				</SelectTrigger>
 				<SelectContent>
-					<SelectItem value="Bowling Standard">Bowling Normal</SelectItem>
-					<SelectItem value="Bowling Junior">Bowling Junior</SelectItem>
-					<SelectItem value="Air Hockey">Air Hockey</SelectItem>
-					<SelectItem value="Spisning">Spisning</SelectItem>
+					<SelectItem value="Bowling Standard">Bowling Standard - 200 kr.</SelectItem>
+					<SelectItem value="Bowling Junior">Bowling Junior - 100 kr.</SelectItem>
+					<SelectItem value="Air Hockey">Air Hockey - 150 kr.</SelectItem>
+					<SelectItem value="Spisning">Spisning - 50 kr.</SelectItem>
 				</SelectContent>
 			</Select>
 

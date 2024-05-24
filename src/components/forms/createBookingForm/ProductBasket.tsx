@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function ProductBasket({ selectedProducts, setSelectedProducts }: Props) {
-	const TOTAL_PRICE = selectedProducts.reduce((acc, product) => acc + product.price * product.quantity, 0);
+	const TOTAL_PRICE = (selectedProducts.reduce((acc, product) => acc + product.price * product.quantity, 0)).toFixed(2);
 
 	const handleClick = (action: "+" | "-", p: IProductQuantity) => {
 		const filtered = selectedProducts.filter((product) => product.id != p.id).sort((a, b) => a.id - b.id);
@@ -23,26 +23,45 @@ export default function ProductBasket({ selectedProducts, setSelectedProducts }:
 	};
 
 	return (
-		<section className="w-72 h-fit bg-red-300 p-3">
-			{selectedProducts.map((p) => {
-				return (
-					<div key={p.id} className={"flex justify-between items-center px-2"}>
-						<p>
-							{p.name} - {p.price * p.quantity}kr.
-						</p>
-						<div className={"flex gap-1 items-center"}>
-							<Button type={"button"} variant="outline" size="icon" onClick={() => handleClick("-", p)}>
-								-
-							</Button>
-							{p.quantity}
-							<Button disabled={p.quantity === p.stock} type={"button"} variant="outline" size="icon" onClick={() => handleClick("+", p)}>
-								+
-							</Button>
+		<section className="w-80 h-fit bg-slate-800 p-3 rounded-lg text-white">
+			<div className="flex flex-col gap-6 pt-3">
+				{selectedProducts.map((p) => {
+					return (
+						<div key={p.id} className={"flex justify-between items-center"}>
+							<div className="flex justify-between items-center text-sm w-full pr-3">
+								<p className="line-clamp-1 font-semibold">{p.name}</p>
+								<p className="text-xs text-opacity-50 text-white">{(p.price * p.quantity).toFixed(2)} kr.</p>
+							</div>
+							<div className={"flex justify-between gap-1 w-24 "}>
+								<Button
+									className="size-5 bg-slate-700 hover:bg-red-300"
+									type={"button"}
+									variant="outline"
+									size="icon"
+									onClick={() => handleClick("-", p)}
+								>
+									-
+								</Button>
+								<div className="text-sm">{p.quantity}</div>
+								<Button
+									className="size-5 bg-slate-700 hover:bg-green-300"
+									disabled={p.quantity === p.stock}
+									type={"button"}
+									variant="outline"
+									size="icon"
+									onClick={() => handleClick("+", p)}
+								>
+									+
+								</Button>
+							</div>
 						</div>
-					</div>
-				);
-			})}
-			<p className={"text-right p-2"}>Total: {TOTAL_PRICE}kr.</p>
+					);
+				})}
+			</div>
+			<div className={"flex justify-between text-right py-2 font-bold border-t border-orange-300 mt-5"}>
+				<div>Total: </div>
+				<div>{TOTAL_PRICE} kr.</div>
+			</div>
 		</section>
 	);
 }

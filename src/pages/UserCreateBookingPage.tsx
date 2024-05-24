@@ -88,7 +88,7 @@ export default function UserCreateBookingPage() {
 					title: "Reservation oprettet!",
 					description: `Din reservation er oprettet med reservations ID: ${data.id}`,
 				});
-				// navigate("/reservations");
+				navigate("/reservations");
 			})
 			.catch(() => {
 				toast({

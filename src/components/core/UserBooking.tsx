@@ -42,12 +42,11 @@ export default function UserBooking({ booking }: Props) {
 									<GoPerson />
 								</Button>
 							</PopoverTrigger>
-							<PopoverContent>
+							<PopoverContent className="bg-slate-700 border-white shadow-lg shadow-slate-950 space-y-2">
 								{booking.participants.map((p, i) => (
-									<div key={p} className="flex items-center justify-between">
-										<p>
-											{i + 1}: {p}
-										</p>
+									<div key={p} className="flex items-center justify-between text-white">
+										<p>Deltager {i + 1}</p>
+										<p>{p}</p>
 									</div>
 								))}
 							</PopoverContent>
@@ -58,12 +57,16 @@ export default function UserBooking({ booking }: Props) {
 									<FaShoppingCart />
 								</Button>
 							</PopoverTrigger>
-							<PopoverContent>
+							<PopoverContent className="bg-slate-700 border-white shadow-lg shadow-slate-950 space-y-2">
 								{booking.products.map((p) => (
-									<div key={p.id} className="flex items-center justify-between">
-										<img className="w-12" src={p.image} />
-										<div>{p.name}</div>
-										<div> {p.quantity} stk.</div>
+									<div key={p.id} className="flex gap-2 justify-between text-white">
+										<div className="w-10">
+											<img className="h-12 mx-auto" src={p.image} />
+										</div>
+										<div className="flex justify-between w-full items-center">
+											<p>{p.name}</p>
+											<p>{p.quantity} stk.</p>
+										</div>
 									</div>
 								))}
 							</PopoverContent>

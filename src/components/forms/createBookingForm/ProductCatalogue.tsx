@@ -29,7 +29,7 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 	};
 
 	return (
-		<div>
+		<div className="bg-slate-800 rounded-lg p-5">
 			<section className="w-[34rem] h-[38rem] grid grid-cols-3 grid-rows-2 gap-4 mb-5">
 				{products.content.map((p) => (
 					<ProductCatalogueItem key={p.id} product={p} handleClick={handleProductOnClick} selectedProducts={selectedProducts} />
@@ -38,7 +38,6 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 			<div className="flex justify-evenly">
 				<Button
 					type={"button"}
-					variant={"outline"}
 					onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))}
 					disabled={products?.first}
 				>
@@ -52,7 +51,6 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 				) : null}
 				<Button
 					type={"button"}
-					variant={"outline"}
 					onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))}
 					disabled={products?.last}
 				>

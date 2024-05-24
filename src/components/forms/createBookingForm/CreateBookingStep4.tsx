@@ -30,26 +30,34 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 	date.setHours(hour, minute);
 	const formattedDate = format(date, "dd MMMM, yyyy, p", { locale: da });
 	const PRODUCTS_TOTAL_PRICE = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
-	const TOTAL_PRICE = PRODUCTS_TOTAL_PRICE + activity.price;
+	const TOTAL_PRICE = (PRODUCTS_TOTAL_PRICE + activity.price).toFixed(2);
 	const imgSrc = activityTypeDictionary[activity.type];
+	console.log(activity.type);
 
 	return (
 		<>
-			<div className="bg-orange-300 w-96 rounded-lg p-3">
-				<div className={"p-2"}>
-					<div className="w-72 flex justify-center mx-auto my-2 h-44">
+			<div className="bg-slate-800 w-96 rounded-lg p-3 text-white">
+				<div className={"flex flex-col gap-3 p-2"}>
+					<div className="w-72 flex justify-center mx-auto my-5 h-44">
 						<img className="rounded-md object-cover" src={imgSrc} alt={activity.type} />
 					</div>
-					<p>
-						{activityType} - {activity.name} - {activity.price} kr.
-					</p>
-					<p>{formattedDate}</p>
-					<p>
-						{hours} {hours > 1 ? "timer" : "time"}
-					</p>
-
-					<p>Produkter - {PRODUCTS_TOTAL_PRICE} kr.</p>
-					<p>Samlet Pris - {TOTAL_PRICE} kr.</p>
+					<div>
+						{formattedDate}, {hours} {hours > 1 ? "timer" : "time"}
+					</div>
+					<div className="flex justify-between items-center">
+						<p>
+							{activityType} - <span className="text-xs text-white text-opacity-50">{activity.name}</span>
+						</p>
+						<p>{activity.price.toFixed(2)} kr.</p>
+					</div>
+					<div className="flex justify-between">
+						<p>Tilkøb</p>
+						<p>{PRODUCTS_TOTAL_PRICE.toFixed(2)} kr.</p>
+					</div>
+					<div className="flex justify-between border-t border-orange-300 py-2 font-bold">
+						<p>Samlet Pris</p>
+						<p>{TOTAL_PRICE} kr.</p>
+					</div>
 				</div>
 
 				<div className={"my-3 flex flex-row justify-evenly gap-1"}>
@@ -58,13 +66,13 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 							<Button type={"button"} size="icon">
 								<GoPerson />
 							</Button>
+							<div className="text-xs mt-1">Deltagere</div>
 						</PopoverTrigger>
-						<PopoverContent>
+						<PopoverContent className="bg-slate-700 border-white shadow-lg shadow-slate-950 space-y-2">
 							{participants.map((p, i) => (
-								<div key={p} className="flex items-center justify-between">
-									<p>
-										{i + 1}: {p}
-									</p>
+								<div key={p} className="flex items-center justify-between text-white">
+									<p>Deltager {i + 1}</p>
+									<p>{p}</p>
 								</div>
 							))}
 						</PopoverContent>
@@ -74,13 +82,18 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 							<Button type={"button"} size="icon">
 								<FaShoppingCart />
 							</Button>
+							<div className="text-xs mt-1">Tilkøb</div>
 						</PopoverTrigger>
-						<PopoverContent>
+						<PopoverContent className="bg-slate-700 border-white shadow-lg shadow-slate-950 space-y-2">
 							{products.map((p) => (
-								<div key={p.id} className="flex items-center justify-between">
-									<img className="w-12" src={p.image} />
-									<div>{p.name}</div>
-									<div> {p.quantity} stk.</div>
+								<div key={p.id} className="flex gap-2 justify-between text-white">
+									<div className="w-10">
+										<img className="h-12 mx-auto" src={p.image} />
+									</div>
+									<div className="flex justify-between w-full items-center">
+										<p>{p.name}</p>
+										<p>{p.quantity} stk.</p>
+									</div>
 								</div>
 							))}
 						</PopoverContent>

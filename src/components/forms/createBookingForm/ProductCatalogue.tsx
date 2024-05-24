@@ -4,6 +4,7 @@ import { IPagination } from "@/models/IPagination";
 import { IProduct } from "@/models/IProduct";
 import { IProductQuantity } from "@/pages/UserCreateBookingPage";
 import ProductCatalogueItem from "./ProductCatalogueItem";
+import { motion } from "framer-motion";
 
 type Props = {
 	products: IPagination<IProduct>;
@@ -30,11 +31,20 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 
 	return (
 		<div className="bg-slate-800 rounded-lg p-5">
-			<section className="w-[34rem] h-[38rem] grid grid-cols-3 grid-rows-2 gap-4 mb-5">
+			<motion.section
+				className="w-[34rem] h-[38rem] grid grid-cols-3 grid-rows-2 gap-4 mb-5"
+				initial={{
+					opacity: 0,
+				}}
+				animate={{
+					opacity: 1,
+				}}
+				key={pagination.pageIndex}
+			>
 				{products.content.map((p) => (
 					<ProductCatalogueItem key={p.id} product={p} handleClick={handleProductOnClick} selectedProducts={selectedProducts} />
 				))}
-			</section>
+			</motion.section>
 			<div className="flex justify-evenly">
 				<Button
 					className="hover:bg-slate-500"

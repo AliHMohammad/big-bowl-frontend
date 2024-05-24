@@ -48,10 +48,6 @@ export default function UserCreateBookingPage() {
 
 	const { user } = useUser();
 
-	// Used for x-translate animation
-	const prevStepRef = useRef(step);
-	const delta = step - prevStep;
-
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -63,6 +59,10 @@ export default function UserCreateBookingPage() {
 			name4: "",
 		},
 	});
+
+	// Used for x-translate animation
+	const prevStepRef = useRef(step);
+	const delta = step - prevStep;
 
 	useEffect(() => {
 		// Update the ref to the current step before updating the state

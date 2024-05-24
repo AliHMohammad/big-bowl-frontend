@@ -13,9 +13,6 @@ type Props = {
 };
 
 export default function ProductCatalogue({ products, pagination, setPagination, selectedProducts, setSelectedProducts }: Props) {
-	
-
-
 	const handleProductOnClick = (p: IProduct) => {
 		//TODO: Nok i stock?
 		console.log(p);
@@ -32,15 +29,24 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 
 	return (
 		<div>
-			<section className="w-[34rem] h-[30rem] grid grid-cols-3 grid-rows-2 gap-4">
+			<section className="w-[34rem] h-[38rem] grid grid-cols-3 grid-rows-2 gap-4 mb-5">
 				{products.content.map((p) => (
-					<div className="bg-orange-300 flex flex-col justify-center rounded-md overflow-hidden" key={p.id}>
-						<p className="font-semibold text-center">{p.name}</p>
+					<div className="bg-slate-700 flex flex-col justify-center items-center rounded-md overflow-hidden text-white py-2 gap-2" key={p.id}>
+						<p className="font-semibold text-center line-clamp-1">{p.name}</p>
 						<div className="flex justify-center my-auto items-center">
 							<img src={p.image} alt={p.name} className="h-36" />
 						</div>
-						{p.stock ? <p className="text-center">{p.stock} på lager</p> : <p className="text-black text-opacity-0">.</p>}
-						<Button disabled={selectedProducts.some((item) => item.id === p.id) || !p.stock} type="button" onClick={() => handleProductOnClick(p)}>
+						<div className="text-center">
+						{p.stock ? <p className="text-center text-opacity-50 text-xs text-white">{p.stock} på lager</p> : <p className="text-black text-opacity-0">.</p>}
+						{p.price} kr.
+
+						</div>
+						<Button
+							className="w-14"
+							disabled={selectedProducts.some((item) => item.id === p.id) || !p.stock}
+							type="button"
+							onClick={() => handleProductOnClick(p)}
+						>
 							{p.stock === 0 ? "Ikke på lager" : "Tilføj"}
 						</Button>
 					</div>
@@ -53,10 +59,10 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 					onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))}
 					disabled={products?.first}
 				>
-					{"Forrige"}
+					{"<"}
 				</Button>
 				{products?.totalPages ? (
-					<p className="text-white">
+					<p className="text-white flex items-center">
 						{" "}
 						Side {pagination.pageIndex + 1} / {products?.totalPages}{" "}
 					</p>
@@ -67,7 +73,7 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 					onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))}
 					disabled={products?.last}
 				>
-					{"Næste"}
+					{">"}
 				</Button>
 			</div>
 		</div>

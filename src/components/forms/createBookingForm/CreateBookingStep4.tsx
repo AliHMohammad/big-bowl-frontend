@@ -1,6 +1,5 @@
 import { IActivity } from "@/models/IActivity.ts";
 import { IProductQuantity } from "@/pages/UserCreateBookingPage.tsx";
-import { Button } from "@mobiscroll/react";
 import React from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
 import { GoPerson } from "react-icons/go";
@@ -10,6 +9,7 @@ import { z } from "zod";
 import { formSchema } from "@/components/forms/createBookingForm/schema.ts";
 import { format } from "date-fns";
 import { da } from "date-fns/locale";
+import { Button } from "@/components/ui/button";
 
 type Props = {
 	activityType: string;

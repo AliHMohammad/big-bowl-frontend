@@ -14,7 +14,6 @@ import { IActivity } from "@/models/IActivity.ts";
 import { createBooking } from "@/services/bookingApi.ts";
 import { toast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
-import { formatISO } from "date-fns";
 
 export type IBookingRequest = {
 	start: string;
@@ -34,11 +33,6 @@ type IProductRequest = {
 	quantity: number;
 };
 
-/*export type IBookingTimeRequest = {
-	date: Date;
-	activityType: string;
-	hours: number;
-};*/
 
 export default function UserCreateBookingPage() {
 	const navigate = useNavigate();

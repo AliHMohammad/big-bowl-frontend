@@ -63,23 +63,23 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 	return (
 		<>
 			<FormField
-
 				control={form.control}
 				name="activityId"
 				render={({ field }) => (
 					<>
 						<FormLabel className="text-white">Sted</FormLabel>
 						<Select
+							value={String(field.value)}
 							onValueChange={(v) => {
 								field.onChange(Number(v));
 								const foundActivity = activities?.find((p) => p.id == Number(v));
 								setActivity(foundActivity!);
 							}}
-							/*defaultValue={String(field.value)}*/
-							defaultValue={"Hello world"}
 						>
 							<SelectTrigger>
-								<SelectValue placeholder="Vælg aktivitet" />
+								<SelectValue placeholder="Vælg aktivitet">
+									{field.value ? activities?.find((act) => act.id === Number(field.value))?.name : "Vælg aktivitet"}
+								</SelectValue>
 							</SelectTrigger>
 							<SelectContent>
 								{activities?.map((activity) => {
@@ -100,7 +100,7 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 				name="startTime"
 				render={({ field }) => (
 					<Select
-						value={field.value}
+						value={String(field.value)}
 						onValueChange={(v) => {
 							field.onChange(v);
 							setStartTime(v);

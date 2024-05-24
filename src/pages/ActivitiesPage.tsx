@@ -94,7 +94,7 @@ export default function ActivitiesPage() {
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="none">Ingen</SelectItem>
-							<SelectItem value="Bowling Standard">Bowling Normal</SelectItem>
+							<SelectItem value="Bowling Voksen">Bowling Voksen</SelectItem>
 							<SelectItem value="Bowling Junior">Bowling Junior</SelectItem>
 							<SelectItem value="Air Hockey">Air Hockey</SelectItem>
 							<SelectItem value="Spisning">Spisning</SelectItem>

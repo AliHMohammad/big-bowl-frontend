@@ -44,7 +44,7 @@ export default function UserBooking({ booking }: Props) {
 							</PopoverTrigger>
 							<PopoverContent>
 								{booking.participants.map((p, i) => (
-									<div className="flex items-center justify-between">
+									<div key={p} className="flex items-center justify-between">
 										<p>
 											{i + 1}: {p}
 										</p>
@@ -60,7 +60,7 @@ export default function UserBooking({ booking }: Props) {
 							</PopoverTrigger>
 							<PopoverContent>
 								{booking.products.map((p) => (
-									<div className="flex items-center justify-between">
+									<div key={p.id} className="flex items-center justify-between">
 										<img className="w-12" src={p.image} />
 										<div>{p.name}</div>
 										<div> {p.quantity} stk.</div>

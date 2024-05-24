@@ -16,7 +16,6 @@ import UserEditBookingFormPage from "./pages/UserEditBookingFormPage";
 import ContentLayout from "./components/layouts/ContentLayout";
 import UserCreateBookingPage from "./pages/UserCreateBookingPage";
 
-
 function App() {
 	return (
 		<>
@@ -50,7 +49,9 @@ function App() {
 						path={"/booking"}
 						element={
 							<RequireAuth>
-								<UserCreateBookingPage/>
+								<ContentLayout>
+									<UserCreateBookingPage />
+								</ContentLayout>
 							</RequireAuth>
 						}
 					/>

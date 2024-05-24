@@ -66,7 +66,7 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 				control={form.control}
 				name="activityId"
 				render={({ field }) => (
-					<>
+					<FormItem>
 						<FormLabel className="text-white">Sted</FormLabel>
 						<Select
 							value={String(field.value)}
@@ -91,7 +91,7 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 								})}
 							</SelectContent>
 						</Select>
-					</>
+					</FormItem>
 				)}
 			/>
 
@@ -109,7 +109,7 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 						disabled={!activity}
 					>
 						<SelectTrigger>
-							<SelectValue placeholder="Vælg start tid" />
+							<SelectValue placeholder="Vælg tidspunkt" />
 						</SelectTrigger>
 						<SelectContent>
 							{timeblock.map((time) => {

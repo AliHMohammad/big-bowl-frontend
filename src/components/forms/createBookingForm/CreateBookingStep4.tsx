@@ -10,6 +10,7 @@ import { formSchema } from "@/components/forms/createBookingForm/schema.ts";
 import { format } from "date-fns";
 import { da } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
+import { activityTypeDictionary } from "@/utils/dictionary";
 
 type Props = {
 	activityType: string;
@@ -30,11 +31,15 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 	const formattedDate = format(date, "dd MMMM, yyyy, p", { locale: da });
 	const PRODUCTS_TOTAL_PRICE = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
 	const TOTAL_PRICE = PRODUCTS_TOTAL_PRICE + activity.price;
+	const imgSrc = activityTypeDictionary[activity.type];
 
 	return (
 		<>
-			<div className="bg-orange-300 w-96 rounded-md">
+			<div className="bg-orange-300 w-96 rounded-lg p-3">
 				<div className={"p-2"}>
+					<div className="w-72 flex justify-center mx-auto my-2 h-44">
+						<img className="rounded-md object-cover" src={imgSrc} alt={activity.type} />
+					</div>
 					<p>
 						{activityType} - {activity.name} - {activity.price} kr.
 					</p>
@@ -42,9 +47,9 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 					<p>
 						{hours} {hours > 1 ? "timer" : "time"}
 					</p>
+
 					<p>Produkter - {PRODUCTS_TOTAL_PRICE} kr.</p>
 					<p>Samlet Pris - {TOTAL_PRICE} kr.</p>
-
 				</div>
 
 				<div className={"my-3 flex flex-row justify-evenly gap-1"}>
@@ -87,7 +92,7 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 				<Button type={"button"} onClick={() => setStep((prev) => prev - 1)}>
 					Forrige
 				</Button>
-				<Button type="submit">Opret booking</Button>
+				<Button type="submit">Opret Reservation</Button>
 			</div>
 		</>
 	);

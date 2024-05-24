@@ -14,6 +14,8 @@ import { IActivity } from "@/models/IActivity.ts";
 import { createBooking } from "@/services/bookingApi.ts";
 import { toast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import StepIndicator from "@/components/forms/createBookingForm/stepIndicator/StepIndicator";
+import Step from "@/components/forms/createBookingForm/stepIndicator/Step";
 
 export type IBookingRequest = {
 	start: string;
@@ -32,7 +34,6 @@ type IProductRequest = {
 	id: number;
 	quantity: number;
 };
-
 
 export default function UserCreateBookingPage() {
 	const navigate = useNavigate();
@@ -100,7 +101,21 @@ export default function UserCreateBookingPage() {
 
 	return (
 		<>
-			<h2 className="flex justify-center text-4xl text-white font-semibold mb-10">Opret Booking</h2>
+			<h2 className="flex justify-center text-4xl text-white font-semibold mb-5">Opret Reservation</h2>
+			<StepIndicator>
+				<Step step={step} highlightAt={1}>
+					Aktivitet og Dato
+				</Step>
+				<Step step={step} highlightAt={2}>
+					Tidspunkt og Deltagere
+				</Step>
+				<Step step={step} highlightAt={3}>
+					Tilkøb
+				</Step>
+				<Step step={step} highlightAt={4}>
+					Samlet oversigt
+				</Step>
+			</StepIndicator>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-4 flex flex-col items-center">
 					<div className="flex justify-center flex-col gap-5">

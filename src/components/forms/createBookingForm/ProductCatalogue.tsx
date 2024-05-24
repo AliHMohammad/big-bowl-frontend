@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { IPagination } from "@/models/IPagination";
 import { IProduct } from "@/models/IProduct";
 import { IProductQuantity } from "@/pages/UserCreateBookingPage";
+import ProductCatalogueItem from "./ProductCatalogueItem";
 
 type Props = {
 	products: IPagination<IProduct>;
@@ -31,25 +32,7 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 		<div>
 			<section className="w-[34rem] h-[38rem] grid grid-cols-3 grid-rows-2 gap-4 mb-5">
 				{products.content.map((p) => (
-					<div className="bg-slate-700 flex flex-col justify-center items-center rounded-md overflow-hidden text-white py-2 gap-2" key={p.id}>
-						<p className="font-semibold text-center line-clamp-1">{p.name}</p>
-						<div className="flex justify-center my-auto items-center">
-							<img src={p.image} alt={p.name} className="h-36" />
-						</div>
-						<div className="text-center">
-						{p.stock ? <p className="text-center text-opacity-50 text-xs text-white">{p.stock} på lager</p> : <p className="text-black text-opacity-0">.</p>}
-						{p.price} kr.
-
-						</div>
-						<Button
-							className="w-14"
-							disabled={selectedProducts.some((item) => item.id === p.id) || !p.stock}
-							type="button"
-							onClick={() => handleProductOnClick(p)}
-						>
-							{p.stock === 0 ? "Ikke på lager" : "Tilføj"}
-						</Button>
-					</div>
+					<ProductCatalogueItem key={p.id} product={p} handleClick={handleProductOnClick} selectedProducts={selectedProducts} />
 				))}
 			</section>
 			<div className="flex justify-evenly">

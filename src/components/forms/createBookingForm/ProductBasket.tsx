@@ -25,6 +25,7 @@ export default function ProductBasket({ selectedProducts, setSelectedProducts }:
 	return (
 		<section className="w-80 h-fit bg-slate-800 p-3 rounded-lg text-white">
 			<div className="flex flex-col gap-6 pt-3">
+				{selectedProducts.length === 0 && <div className="text-center">Ingen produkter valgt</div>}
 				{selectedProducts.map((p) => {
 					return (
 						<div key={p.id} className={"flex justify-between items-center"}>

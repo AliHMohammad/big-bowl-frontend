@@ -175,8 +175,8 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 			/>
 
 			<div className="flex justify-between">
-				<Button onClick={() => setStep((prev) => prev - 1)}>Forrige</Button>
-				<Button disabled={!stepTwoNext} onClick={() => setStep((prev) => prev + 1)}>
+				<Button className="hover:bg-slate-500" onClick={() => setStep((prev) => prev - 1)}>Forrige</Button>
+				<Button className="hover:bg-slate-500" disabled={!stepTwoNext} onClick={() => setStep((prev) => prev + 1)}>
 					Næste
 				</Button>
 			</div>

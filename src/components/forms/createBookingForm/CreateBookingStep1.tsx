@@ -26,7 +26,7 @@ export default function CreateBookingStep1({ setActivityType, setDate, setHours,
 					<SelectValue placeholder="Vælg aktivitet" />
 				</SelectTrigger>
 				<SelectContent>
-					<SelectItem value="Bowling Standard">Bowling Standard - 200 kr.</SelectItem>
+					<SelectItem value="Bowling Voksen">Bowling Voksen - 200 kr.</SelectItem>
 					<SelectItem value="Bowling Junior">Bowling Junior - 100 kr.</SelectItem>
 					<SelectItem value="Air Hockey">Air Hockey - 150 kr.</SelectItem>
 					<SelectItem value="Spisning">Spisning - 50 kr.</SelectItem>
@@ -56,10 +56,10 @@ export default function CreateBookingStep1({ setActivityType, setDate, setHours,
 			</Select>
 
 			<div className="flex justify-between">
-				<Button disabled={true} onClick={() => setStep((prev) => prev - 1)}>
+				<Button className="hover:bg-slate-500" disabled={true} onClick={() => setStep((prev) => prev - 1)}>
 					Forrige
 				</Button>
-				<Button disabled={!stepOneNext} onClick={() => setStep((prev) => prev + 1)}>
+				<Button className="hover:bg-slate-500" disabled={!stepOneNext} onClick={() => setStep((prev) => prev + 1)}>
 					Næste
 				</Button>
 			</div>

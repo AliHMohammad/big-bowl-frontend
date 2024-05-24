@@ -37,6 +37,7 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 			</section>
 			<div className="flex justify-evenly">
 				<Button
+					className="hover:bg-slate-500"
 					type={"button"}
 					onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))}
 					disabled={products?.first}
@@ -50,6 +51,7 @@ export default function ProductCatalogue({ products, pagination, setPagination, 
 					</p>
 				) : null}
 				<Button
+					className="hover:bg-slate-500"
 					type={"button"}
 					onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))}
 					disabled={products?.last}

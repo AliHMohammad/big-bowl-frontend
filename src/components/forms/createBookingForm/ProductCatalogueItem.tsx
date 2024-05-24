@@ -25,7 +25,7 @@ export default function ProductCatalogueItem({ product, handleClick, selectedPro
 				{product.price.toFixed(2)} kr.
 			</div>
 			<Button
-				className="w-14"
+				className="w-14 hover:bg-slate-500"
 				disabled={selectedProducts.some((item) => item.id === product.id) || !product.stock}
 				type="button"
 				onClick={() => handleClick(product)}

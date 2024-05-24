@@ -63,7 +63,7 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 				<div className={"my-3 flex flex-row justify-evenly gap-1"}>
 					<Popover>
 						<PopoverTrigger>
-							<Button type={"button"} size="icon">
+							<Button className="hover:bg-slate-500" type={"button"} size="icon">
 								<GoPerson />
 							</Button>
 							<div className="text-xs mt-1">Deltagere</div>
@@ -79,7 +79,7 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 					</Popover>
 					<Popover>
 						<PopoverTrigger>
-							<Button type={"button"} size="icon">
+							<Button className="hover:bg-slate-500" type={"button"} size="icon">
 								<FaShoppingCart />
 							</Button>
 							<div className="text-xs mt-1">Tilkøb</div>
@@ -102,10 +102,10 @@ export default function CreateBookingStep4({ activityType, activity, date, hours
 			</div>
 
 			<div className="flex justify-between">
-				<Button type={"button"} onClick={() => setStep((prev) => prev - 1)}>
+				<Button className="hover:bg-slate-500" type={"button"} onClick={() => setStep((prev) => prev - 1)}>
 					Forrige
 				</Button>
-				<Button type="submit">Opret Reservation</Button>
+				<Button className="hover:bg-slate-500" type="submit">Opret Reservation</Button>
 			</div>
 		</>
 	);

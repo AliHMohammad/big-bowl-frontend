@@ -137,8 +137,10 @@ export default function UserEditBookingForm({ booking }: Props) {
 				/>
 
 				<div className="flex justify-center gap-3">
-					<Button type="submit">Opdater</Button>
-					<Button type={"button"} variant={"destructive"} onClick={handleDelete}>
+					<Button className="hover:bg-slate-500" type="submit">
+						Opdater
+					</Button>
+					<Button className="hover:bg-red-300" type={"button"} variant={"destructive"} onClick={handleDelete}>
 						Slet
 					</Button>
 				</div>

@@ -81,8 +81,8 @@ export default function CreateBookingStep3({ setStep, selectedProducts, setSelec
 				<ProductBasket selectedProducts={selectedProducts} setSelectedProducts={setSelectedProducts} />
 			</div>
 			<div className="flex justify-between">
-				<Button onClick={() => setStep((prev) => prev - 1)}>Forrige</Button>
-				<Button onClick={() => setStep((prev) => prev + 1)}>Næste</Button>
+				<Button className="hover:bg-slate-500" onClick={() => setStep((prev) => prev - 1)}>Forrige</Button>
+				<Button className="hover:bg-slate-500" onClick={() => setStep((prev) => prev + 1)}>Næste</Button>
 			</div>
 		</>
 	);

@@ -15,8 +15,8 @@ type Props = {
 	date: Date;
 	form: UseFormReturn<z.infer<typeof formSchema>>;
 	setStep: React.Dispatch<React.SetStateAction<number>>;
-	activity: IActivity | null,
-	setActivity: React.Dispatch<React.SetStateAction<IActivity | null>>
+	activity: IActivity | null;
+	setActivity: React.Dispatch<React.SetStateAction<IActivity | null>>;
 };
 
 export type OccupiedTimesResponse = {
@@ -46,7 +46,6 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 			.then((r) => {
 				const newTimeblock = [...TIMEBLOCK];
 				for (const item of r.data) {
-					console.log(item);
 					const index = newTimeblock.findIndex((i) => i == item.startTime);
 					newTimeblock.splice(index, item.duration);
 				}
@@ -57,8 +56,6 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 				console.log("fetch error");
 			});
 	}, [activity, date, form]);
-
-	console.log(activity?.id);
 
 	return (
 		<>
@@ -175,7 +172,9 @@ export default function CreateBookingStep2({ activityType, date, form, setStep, 
 			/>
 
 			<div className="flex justify-between">
-				<Button className="hover:bg-slate-500" onClick={() => setStep((prev) => prev - 1)}>Forrige</Button>
+				<Button className="hover:bg-slate-500" onClick={() => setStep((prev) => prev - 1)}>
+					Forrige
+				</Button>
 				<Button className="hover:bg-slate-500" disabled={!stepTwoNext} onClick={() => setStep((prev) => prev + 1)}>
 					Næste
 				</Button>

@@ -13,8 +13,12 @@ async function updateStatusOnActivity(id: number, isOpen: boolean): Promise<Axio
 	});
 }
 
+async function getAllActivitiesByType(type: string): Promise<AxiosResponse<IActivity[], unknown>> {
+	return axios.get(`${API_URL}/types/${type}/activities`);
+}
+
 async function getAllActivitiesCalender(queryParams: string): Promise<AxiosResponse<IActivity[], unknown>> {
 	return axios.get(`${API_URL}/activities/calender?` + queryParams);
 }
 
-export { getAllActivities, updateStatusOnActivity, getAllActivitiesCalender};
+export { getAllActivities, updateStatusOnActivity, getAllActivitiesCalender, getAllActivitiesByType};

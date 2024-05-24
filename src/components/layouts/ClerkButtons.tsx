@@ -1,9 +1,7 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-import { useUser, useAuth } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, SignInButton, useAuth, UserButton, useUser } from "@clerk/clerk-react";
 import { useEffect } from "react";
 import { createUserInDB } from "@/services/userApi";
 import { AxiosError, AxiosResponse } from "axios";
-import { toast } from "@/components/ui/use-toast.ts";
 
 export type UserRequest = {
 	id: string;
@@ -15,14 +13,10 @@ export default function ClerkButtons() {
 	const { isSignedIn, user } = useUser();
 	const { getToken, userId } = useAuth();
 
-
-	console.log(user);
-
 	useEffect(() => {
 		if (!isSignedIn) {
 			return;
 		}
-
 
 		createUserInDB({
 			id: userId,

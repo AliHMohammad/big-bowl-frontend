@@ -7,7 +7,7 @@ import { z } from "zod";
 import { toast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
 import { IBooking } from "@/models/IBooking";
-import { updateBookingParticipants } from "@/services/bookingApi";
+import { deleteBooking, updateBookingParticipants } from "@/services/bookingApi";
 
 const formSchema = z.object({
 	name1: z.string().min(0).max(50),
@@ -31,6 +31,7 @@ type Props = {
 
 export default function UserEditBookingForm({ booking }: Props) {
 	const navigate = useNavigate();
+
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -64,6 +65,24 @@ export default function UserEditBookingForm({ booking }: Props) {
 			});
 	};
 
+	const handleDelete = () => {
+		deleteBooking(booking.id)
+			.then(() => {
+				toast({
+					title: "Reservation slettet",
+					description: `Din reservation med ID nr. ${booking.id} er blevet slettet i vores system. Håber vi ses igen!`,
+				});
+				navigate("/reservations");
+			})
+			.catch(() => {
+				toast({
+					title: "Åh nej! Noget gik galt!",
+					description: `Kunne ikke slette din booking i systemet. Tag kontakt til os eller prøv igen på et senere tidspunkt.`,
+					variant: "destructive",
+				});
+			});
+	};
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-60">
@@ -74,7 +93,7 @@ export default function UserEditBookingForm({ booking }: Props) {
 						<FormItem>
 							<FormLabel className="text-white">Deltagere</FormLabel>
 							<FormControl>
-								<Input placeholder="Deltager 1" required {...field} />
+								<Input placeholder="Deltager 1" disabled={true} required {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -117,7 +136,14 @@ export default function UserEditBookingForm({ booking }: Props) {
 					)}
 				/>
 
-				<div className="flex justify-center"><Button type="submit">Opdater</Button></div>
+				<div className="flex justify-center gap-3">
+					<Button className="hover:bg-slate-500" type="submit">
+						Opdater
+					</Button>
+					<Button className="hover:bg-red-300" type={"button"} variant={"destructive"} onClick={handleDelete}>
+						Slet
+					</Button>
+				</div>
 			</form>
 		</Form>
 	);

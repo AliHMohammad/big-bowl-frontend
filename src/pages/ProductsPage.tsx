@@ -3,14 +3,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllProducts } from "@/services/productApi";
 import { toast } from "@/components/ui/use-toast";
-
 import DataTable, { PaginationSize } from "@/components/table/DataTable.tsx";
 import { ProductColumns } from "@/components/table/table-columns/ProductColumns.tsx";
-
 import { Button } from "@/components/ui/button";
 import { IPagination } from "@/models/IPagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { motion } from "framer-motion";
 
 
 export default function ProductsPage() {
@@ -55,6 +54,7 @@ export default function ProductsPage() {
 	return (
 		<>
 			<div className="flex flex-col gap-4">
+				<h2 className="text-white text-3xl sm:text-5xl font-bold text-center text-pretty mb-5">Produkter</h2>
 				{products && (
 					<>
 						<div className="flex justify-between">
@@ -121,14 +121,27 @@ export default function ProductsPage() {
 								</Select>
 							</div>
 							<Link to={"form"}>
-								<Button>Tilføj produkt</Button>
+								<Button className="hover:bg-slate-500">Tilføj produkt</Button>
 							</Link>
 						</div>
-						<DataTable columns={ProductColumns} data={products.content} pagination={pagination} />
+						<motion.div key={pagination.pageIndex + sort.sortBy + sort.sortDir + filter + search}
+									initial={{
+										opacity: 0,
+									}}
+									animate={{
+										opacity: 1,
+									}}
+						>
+							<DataTable columns={ProductColumns} data={products.content} pagination={pagination} />
+
+						</motion.div>
 						<div className="flex justify-evenly">
-							<Button
-								onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))}
-								disabled={products?.first}
+							<Button className="hover:bg-slate-500"
+									onClick={() => setPagination((prevState) => ({
+										...prevState,
+										pageIndex: prevState.pageIndex - 1,
+									}))}
+									disabled={products?.first}
 							>
 								{"Forrige"}
 							</Button>
@@ -138,9 +151,12 @@ export default function ProductsPage() {
 									Side {pagination.pageIndex + 1} / {products?.totalPages}{" "}
 								</p>
 							) : null}
-							<Button
-								onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))}
-								disabled={products?.last}
+							<Button className="hover:bg-slate-500"
+									onClick={() => setPagination((prevState) => ({
+										...prevState,
+										pageIndex: prevState.pageIndex + 1,
+									}))}
+									disabled={products?.last}
 							>
 								{"Næste"}
 							</Button>

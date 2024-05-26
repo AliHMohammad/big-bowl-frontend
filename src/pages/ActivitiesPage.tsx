@@ -7,32 +7,33 @@ import { ActivityColumns } from "@/components/table/table-columns/ActivityColumn
 import { Button } from "@/components/ui/button";
 import { IPagination } from "@/models/IPagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { motion } from "framer-motion";
 
 export default function ActivitiesPage() {
 	const [activities, setActivities] = useState<IPagination<IActivity> | null>(null);
-    const [pagination, setPagination] = useState<PaginationSize>({
+	const [pagination, setPagination] = useState<PaginationSize>({
 		pageIndex: 0, //initial page index
 		pageSize: 5, //default page size
-    });
-    const [sort, setSort] = useState({
-		sortBy: "id",
-		sortDir: "ASC"
 	});
-    const [filter, setFilter] = useState("");
-    
-    useEffect(() => {
+	const [sort, setSort] = useState({
+		sortBy: "id",
+		sortDir: "ASC",
+	});
+	const [filter, setFilter] = useState("");
+
+	useEffect(() => {
 		const queryParams = new URLSearchParams({
 			pageIndex: String(pagination.pageIndex),
 			pageSize: String(pagination.pageSize),
-			...sort
-		})
+			...sort,
+		});
 
 		if (filter != "none")
-			queryParams.append("filterBy", filter)
-		
-        
+			queryParams.append("filterBy", filter);
+
+
 		console.log(queryParams);
-		
+
 
 		getAllActivities(queryParams.toString())
 			.then(({ data }) => setActivities(data))
@@ -45,10 +46,10 @@ export default function ActivitiesPage() {
 			});
 	}, [pagination, sort, filter]);
 
-	
 
 	return (
 		<div className="flex flex-col gap-4">
+			<h2 className="text-white text-3xl sm:text-5xl font-bold text-center text-pretty mb-5">Aktiviteter</h2>
 			<div className="flex justify-between">
 				<div className="flex gap-2 flex-wrap">
 					<Select
@@ -102,9 +103,25 @@ export default function ActivitiesPage() {
 					</Select>
 				</div>
 			</div>
-			{activities && <DataTable columns={ActivityColumns} data={activities.content} pagination={pagination} />}
+			{activities &&
+				<motion.div
+					key={pagination.pageIndex + sort.sortBy + sort.sortDir + filter}
+					initial={{
+						opacity: 0,
+					}}
+					animate={{
+						opacity: 1,
+					}}
+				>
+					<DataTable columns={ActivityColumns} data={activities.content} pagination={pagination} />
+				</motion.div>}
 			<div className="flex justify-evenly">
-				<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex - 1 }))} disabled={activities?.first}>
+				<Button className="hover:bg-slate-500"
+						onClick={() => setPagination((prevState) => ({
+							...prevState,
+							pageIndex: prevState.pageIndex - 1,
+						}))}
+						disabled={activities?.first}>
 					{"Forrige"}
 				</Button>
 				{activities?.totalPages ? (
@@ -113,7 +130,12 @@ export default function ActivitiesPage() {
 						Side {pagination.pageIndex + 1} / {activities?.totalPages}{" "}
 					</p>
 				) : null}
-				<Button onClick={() => setPagination((prevState) => ({ ...prevState, pageIndex: prevState.pageIndex + 1 }))} disabled={activities?.last}>
+				<Button className="hover:bg-slate-500"
+						onClick={() => setPagination((prevState) => ({
+							...prevState,
+							pageIndex: prevState.pageIndex + 1,
+						}))}
+						disabled={activities?.last}>
 					{"Næste"}
 				</Button>
 			</div>

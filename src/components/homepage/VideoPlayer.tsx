@@ -1,4 +1,4 @@
-import React from "react";
+import { motion } from "framer-motion";
 
 export default function VideoPlayer() {
 	return (
@@ -11,9 +11,19 @@ export default function VideoPlayer() {
 				loop
 			></video>
 			<div className=" z-50 relative flex items-center justify-center w-2/3 sm:w-1/3 text-center m-auto">
-				<p className="text-white text-3xl sm:text-6xl font-bold">
-					<span className="text-orange-300">De sjoveste oplevelser</span> er dem, vi skaber med hinanden
-				</p>
+				<motion.p className="text-white text-3xl sm:text-6xl font-bold">
+					<motion.span
+						className="text-orange-300"
+						initial={{ opacity: 0, x: -100 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ delay: 3, duration: 1 }}
+					>
+						De sjoveste oplevelser
+					</motion.span>
+					<motion.span initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 4, duration: 1 }}>
+						&nbsp;er dem, vi skaber med hinanden
+					</motion.span>
+				</motion.p>
 			</div>
 		</section>
 	);

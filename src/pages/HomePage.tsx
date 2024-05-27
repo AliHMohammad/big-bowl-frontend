@@ -3,12 +3,36 @@ import VideoPlayer from "@/components/homepage/VideoPlayer";
 import { SignedOut } from "@clerk/clerk-react";
 import Footer from "@/components/layouts/Footer";
 import { SignInButton } from "@clerk/clerk-react";
+import { motion } from "framer-motion";
 
 export default function HomePage() {
 	return (
-		<>
+		<motion.div
+			initial={{
+				opacity: 0,
+			}}
+			animate={{
+				opacity: 1,
+			}}
+		>
 			<VideoPlayer />
-			<div className="flex justify-center my-10">
+			<motion.div
+				className="flex justify-center my-10"
+				initial={{
+					opacity: 0,
+					y: 50,
+				}}
+				whileInView={{
+					opacity: 1,
+					y: 0,
+				}}
+				transition={{
+					duration: 1,
+				}}
+				viewport={{
+					once: true,
+				}}
+			>
 				<article className=" bg-orange-300 w-[30rem] rounded-2xl p-8 space-y-5 text-center">
 					<h3 className=" text-4xl text-white font-semibold">Velkommen til!</h3>
 					<p className="text-xl">
@@ -22,11 +46,27 @@ export default function HomePage() {
 						</SignInButton>
 					</SignedOut>
 				</article>
-			</div>
-			<div className="flex justify-center">
+			</motion.div>
+			<motion.div
+				className="flex justify-center"
+				initial={{
+					opacity: 0,
+					y: 50,
+				}}
+				whileInView={{
+					opacity: 1,
+					y: 0,
+				}}
+				transition={{
+					duration: 1,
+				}}
+				viewport={{
+					once: true,
+				}}
+			>
 				<ActivityCarousel />
-			</div>
+			</motion.div>
 			<Footer />
-		</>
+		</motion.div>
 	);
 }

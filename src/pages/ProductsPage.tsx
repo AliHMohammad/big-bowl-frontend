@@ -11,7 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
 
-
 export default function ProductsPage() {
 	const [products, setProducts] = useState<IPagination<IProduct> | null>(null);
 	const [pagination, setPagination] = useState<PaginationSize>({

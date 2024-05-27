@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
@@ -16,6 +16,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
 import StepIndicator from "@/components/forms/createBookingForm/stepIndicator/StepIndicator";
 import Step from "@/components/forms/createBookingForm/stepIndicator/Step";
+import { motion } from "framer-motion";
 
 export type IBookingRequest = {
 	start: string;
@@ -39,6 +40,7 @@ export default function UserCreateBookingPage() {
 	const navigate = useNavigate();
 	const [date, setDate] = useState<Date>();
 	const [step, setStep] = useState(1);
+	const [prevStep, setPrevStep] = useState(1);
 	const [activityType, setActivityType] = useState("");
 	const [hours, setHours] = useState<number | null>(null);
 	const [selectedProducts, setSelectedProducts] = useState<IProductQuantity[]>([]);
@@ -58,6 +60,16 @@ export default function UserCreateBookingPage() {
 		},
 	});
 
+	// Used for x-translate animation
+	const prevStepRef = useRef(step);
+	const delta = step - prevStep;
+
+	useEffect(() => {
+		// Update the ref to the current step before updating the state
+		prevStepRef.current = step;
+		setPrevStep(prevStepRef.current);
+	}, [step]);
+
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		const productRequests = selectedProducts.map((p) => {
 			return {
@@ -70,8 +82,6 @@ export default function UserCreateBookingPage() {
 		const arr = [name1, name2, name3, name4];
 		const participants: string[] = arr.filter((name) => name !== "");
 
-		console.log(date!.toISOString());
-
 		const request: IBookingRequest = {
 			start: date!.toISOString(),
 			activityId: activity!.id,
@@ -81,7 +91,6 @@ export default function UserCreateBookingPage() {
 			products: productRequests,
 		};
 
-		console.log(request);
 		createBooking(request)
 			.then(({ data }) => {
 				toast({
@@ -118,7 +127,22 @@ export default function UserCreateBookingPage() {
 			</StepIndicator>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-4 flex flex-col items-center">
-					<div className="flex justify-center flex-col gap-5">
+					<motion.div
+						className="flex justify-center flex-col gap-5"
+						key={step}
+						initial={{
+							opacity: 0,
+							x: delta >= 0 ? 50 : -50,
+						}}
+						animate={{
+							opacity: 1,
+							x: 0,
+						}}
+						transition={{
+							duration: 0.3,
+							ease: "easeInOut",
+						}}
+					>
 						{step === 1 && (
 							<CreateBookingStep1
 								setActivityType={setActivityType}
@@ -152,7 +176,7 @@ export default function UserCreateBookingPage() {
 								form={form}
 							/>
 						)}
-					</div>
+					</motion.div>
 				</form>
 			</Form>
 		</>

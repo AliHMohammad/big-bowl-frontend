@@ -87,6 +87,7 @@ export default function BookingCalenderPage() {
 
 	return (
 		<div className="flex flex-col gap-4">
+			<h2 className="text-white text-3xl sm:text-5xl font-bold text-center text-pretty mb-5">Kalender</h2>
 			<div className="flex flex-row flex-wrap justify-between">
 				<Select
 					onValueChange={(value) => {
